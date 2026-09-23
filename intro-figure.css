@@ -1,0 +1,163 @@
+/* Introduction only. Figure motion follows ordinary document scrolling. */
+.intro-subheading { margin: 2.5rem 0 1.1rem; font-size: 1.5rem; font-weight: 400; }
+.brain-story {
+  width: min(1040px, calc(100vw - 3rem));
+  position: relative;
+  left: 50%;
+  transform: translateX(-50%);
+  margin: 3rem 0 2rem;
+  background: #fff;
+  --region-opacity: 0;
+  --region-color-opacity: 0;
+  --brain-opacity: 1;
+  --brain-scale: 1;
+  --brain-shift: 0%;
+  --sites-opacity: 0;
+  --hole-opacity: 0;
+  --specimens-opacity: 0;
+  --fragment-opacity: 1;
+  --patch-raster-opacity: 0;
+  --core-cap-opacity: 0;
+  --column-sites-opacity: 0;
+  --selection-spot-opacity: 0;
+  --core-ring-width: .65;
+  --core-rim-opacity: 0;
+  --core-view-opacity: 1;
+  --companion-opacity: 1;
+  --pair-label-opacity: 0;
+  --layer-label-opacity: 0;
+  --column-art-opacity: 0;
+  --column-circuit-opacity: 0;
+  --flow-annotation-opacity: 0;
+  --progress: 0%;
+}
+.brain-story.is-scrollable { height: 480svh; min-height: 2600px; }
+.brain-story__pin {
+  background: white;
+  display: flex;
+  flex-direction: column;
+  height: min(840px, 91svh);
+  min-height: 540px;
+  padding: 1.25rem 0 .5rem;
+  border-top: 1px solid var(--rule);
+}
+.is-scrollable .brain-story__pin { position: sticky; top: 4svh; }
+.brain-story__heading { padding-inline: 1rem; flex: none; }
+.brain-story__eyebrow { margin: 0 0 .5rem; font-family: var(--mono); font-size: .75rem; color: var(--muted); }
+.brain-story__heading h3 { margin: 0 0 .55rem; font-size: 1.9rem; line-height: 1.15; font-weight: 400; }
+.brain-story__description { font-family: var(--body); font-size: 1.0625rem; line-height: 1.45; margin: 0; max-width: 700px; min-height: 3em; }
+.brain-story__canvas { position: relative; flex: 1; min-height: 240px; isolation: isolate; }
+.brain-scene { position: absolute; inset: 0; display: grid; place-items: center; pointer-events: none; }
+.brain-scene--brain { opacity: var(--brain-opacity); overflow: hidden; }
+.brain-camera { width: min(86%, 840px); height: 100%; position: relative; transform: translateX(var(--brain-shift)) scale(var(--brain-scale)); transform-origin: 78% 51%; }
+.brain-camera img { display: block; width: 100%; height: 100%; object-fit: contain; }
+.brain-camera .brain-region-paint { position: absolute; inset: 0; opacity: var(--region-color-opacity); }
+.brain-sample-sites { position: absolute; inset: 0; width: 100%; height: 100%; opacity: var(--sites-opacity); }
+.sample-site--language, .sample--language { --sample-color: #986a48; }
+.sample-site--visual, .sample--visual { --sample-color: #416881; }
+.sample-hole { fill: #59645f; stroke: #e3dccd; stroke-width: 1.5; opacity: var(--hole-opacity); }
+.sample-rim { fill: none; stroke: var(--sample-color); stroke-width: 1.25; }
+/* Labels live outside the artwork. Lines are anchored to image coordinates. */
+.brain-callouts { position: absolute; inset: 0; opacity: var(--region-opacity); pointer-events: none; }
+.brain-callout-lines { position: absolute; inset: 0; width: 100%; height: 100%; overflow: visible; }
+.brain-callout-lines polyline { fill: none; stroke: #536d7f; stroke-width: 1; stroke-linejoin: round; stroke-linecap: round; }
+.brain-callout-lines circle { fill: var(--navy); stroke: white; stroke-width: 1.2; }
+.brain-callouts .region-label { position: absolute; padding: .15rem .3rem; border: 0; background: #fffffff5; color: var(--navy); font-family: var(--ui); font-size: 1rem; font-weight: 400; line-height: 1.25; }
+.brain-callouts .region-label--planning { left: 1%; top: 33%; }
+.brain-callouts .region-label--motor { left: 28%; top: 2%; }
+.brain-callouts .region-label--touch { left: 50%; top: 0; }
+.brain-callouts .region-label--spatial { right: 3%; top: 6%; }
+.brain-callouts .region-label--visual { right: 0; top: 52%; }
+.brain-callouts .region-label--language { left: 3%; bottom: 11%; }
+.brain-callouts .region-label--auditory { left: auto; right: 15%; bottom: 1%; }
+.cortex-paired-svg { width: 100%; height: 100%; overflow: hidden; }
+.continuous-specimens { opacity: var(--specimens-opacity); }
+.brain-fragment { opacity: var(--fragment-opacity); }
+.patch-raster { opacity: var(--patch-raster-opacity); }
+.core-body-view { opacity: var(--core-view-opacity); }
+.core-cap-view { opacity: var(--core-cap-opacity); }
+.core-companion { opacity: var(--companion-opacity); }
+.column-art-view { opacity: var(--column-art-opacity); }
+.column-circuit-view { opacity: var(--column-circuit-opacity); }
+.column-layer-labels { opacity: var(--layer-label-opacity); }
+.column-layer-labels text { font-family: var(--ui); font-size: 16px; stroke: none; }
+.column-layer-labels path { fill: none; stroke-width: .6; stroke-opacity: .38; }
+.column-flow-annotations { opacity: var(--flow-annotation-opacity); }
+.column-flow-label { font-family: var(--ui); font-size: 16px; }
+.column-flow-leader { fill: none; stroke: #9daeb8; stroke-width: .75; }
+.column-flow-arrow { stroke: none; stroke-linejoin: round; }
+.column-flow-arrow .column-arrow-halo { fill: #fffdf8; stroke: #fffdf8; stroke-width: 3.5; opacity: .96; }
+.column-white-matter { font-family: var(--ui); font-size: 14px; fill: #71818c; }
+.core-body-base { fill: #eae5d9; }
+.column-sites { opacity: var(--column-sites-opacity); }
+.column-sites ellipse { fill: none; stroke: var(--sample-color); stroke-width: .65; stroke-opacity: .7; vector-effect: non-scaling-stroke; }
+.core-selection { fill: var(--sample-color); opacity: calc(var(--selection-spot-opacity) * .18); }
+.core-rim { opacity: var(--core-rim-opacity); fill: none; stroke: var(--sample-color); stroke-width: var(--core-ring-width); }
+.paired-region-label { opacity: var(--pair-label-opacity); }
+.paired-region-name { font-family: var(--body); font-size: 22px; fill: var(--navy); }
+.paired-region-function { font-family: var(--ui); font-size: 15px; fill: var(--sample-color); }
+.brain-story__controls { display: none; justify-content: center; gap: 1.5rem; margin: .4rem 0 .7rem; padding: 0 1rem; }
+.brain-story.is-ready .brain-story__controls { display: flex; }
+.brain-step { appearance: none; background: none; border: 0; border-bottom: 1px solid transparent; font-family: var(--ui); font-size: .875rem; color: var(--muted); padding: .65rem .2rem; min-height: 44px; cursor: pointer; }
+.brain-step[aria-pressed="true"] { border-bottom-color: var(--navy); color: var(--navy); }
+.brain-step span { margin-right: .35rem; font-family: var(--mono); font-size: .75rem; color: var(--muted); }
+.brain-story__progress { height: 2px; background: var(--rule); margin: 0 1rem; flex: none; }
+.brain-story__progress::before { content: ''; display: block; height: 100%; width: var(--progress); background: var(--navy); }
+.brain-story__footer { display: flex; justify-content: space-between; gap: 1rem; margin: .65rem 1rem 0; font-family: var(--ui); font-size: .8125rem; color: var(--muted); }
+.brain-story__footer a { color: inherit; }
+.brain-story__note { padding-inline: 1rem; margin: .4rem 0 0; font-family: var(--ui); font-size: .75rem; line-height: 1.35; color: var(--muted); }
+.brain-story__fallback { font-family: var(--ui); font-size: .875rem; }
+.brain-story.is-ready > figcaption { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); }
+body.brain-story-in-view .contents-rail { visibility: hidden; }
+.anatomy-note { font-size: .875rem; margin-block: 1.5rem 2rem; }
+.anatomy-note summary { color: var(--muted); }
+.anatomy-note p { font-size: .9375rem; }
+.anatomy-note ul { margin: 0 0 1rem; padding-left: 1.2rem; }
+
+@media (max-width: 640px) {
+  .brain-story { width: calc(100vw - 2rem); }
+  .brain-story.is-scrollable { height: 460svh; min-height: 2350px; }
+  .brain-story__pin { height: 94svh; min-height: 560px; }
+  .is-scrollable .brain-story__pin { top: 2svh; }
+  .brain-story__heading { padding-inline: .5rem; }
+  .brain-story__heading h3 { font-size: 1.6rem; }
+  .brain-story__description { font-size: 1rem; min-height: 4.35em; }
+  .brain-story__canvas { min-height: 215px; }
+  .brain-camera { width: 100%; }
+  .brain-callouts .region-label { font-size: .875rem; max-width: 108px; padding: .15rem; }
+  .brain-callouts .region-label--planning { left: 0; top: 27%; }
+  .brain-callouts .region-label--motor { left: 8%; top: 0; }
+  .brain-callouts .region-label--touch { left: 40%; top: 0; max-width: 80px; }
+  .brain-callouts .region-label--spatial { right: 0; top: 12%; max-width: 110px; text-align: right; }
+  .brain-callouts .region-label--visual { right: 0; top: 55%; max-width: 75px; text-align: right; }
+  .brain-callouts .region-label--language { left: 0; bottom: 8%; }
+  .brain-callouts .region-label--auditory { right: 9%; bottom: 0; max-width: 140px; }
+  .brain-story__controls { gap: .5rem; margin: .25rem 0; padding: 0; }
+  .brain-step { font-size: .8125rem; }
+  .brain-step span { display: none; }
+  .brain-story__footer { margin-inline: .5rem; }
+  .brain-story__note { padding-inline: .5rem; }
+  .paired-region-name { font-size: 16px; }
+  .paired-region-function { font-size: 13px; }
+  .column-layer-labels text { font-size: 12px; }
+  .column-flow-label, .column-white-matter { font-size: 12px; }
+}
+@media (max-height: 640px) and (min-width: 641px) {
+  .brain-story__pin { top: 0; height: 100svh; min-height: 460px; padding-top: .5rem; }
+  .brain-story__heading h3 { font-size: 1.5rem; }
+  .brain-story__description { min-height: 0; font-size: 1rem; }
+  .brain-story__canvas { min-height: 200px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .brain-story.is-scrollable { height: auto; min-height: 0; }
+  .brain-story__pin { position: relative; top: auto; }
+}
+@media print {
+  .brain-story.is-scrollable { height: auto; min-height: 0; }
+  .brain-story__pin { position: static; height: 600px; }
+  .brain-scene--brain { opacity: 1; }
+  .brain-camera { transform: none; }
+  .brain-region-paint, .brain-callouts, .brain-sample-sites, .brain-scene--paired { display: none; }
+  .brain-story__controls, .brain-story__progress, .brain-story__footer { display: none !important; }
+  body.brain-story-in-view .contents-rail { visibility: visible; }
+}

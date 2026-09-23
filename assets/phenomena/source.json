@@ -1,0 +1,159 @@
+{
+  "source_pdf": "papers/sciadv.adr6698 (2).pdf",
+  "doi": "10.1126/sciadv.adr6698",
+  "source_url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC11800772/",
+  "method": "PDFKit rendering of source-panel rectangles; original result colors preserved; no recomputation",
+  "coordinate_system": "bounding boxes in a 2x PDF-page render, top-left origin",
+  "clips": [
+    {
+      "name": "contour-triangle-input",
+      "page": 14,
+      "box": [
+        224,
+        124,
+        330,
+        231
+      ]
+    },
+    {
+      "name": "contour-triangle-inference",
+      "page": 14,
+      "box": [
+        354,
+        124,
+        461,
+        231
+      ]
+    },
+    {
+      "name": "contour-star-input",
+      "page": 14,
+      "box": [
+        503,
+        124,
+        611,
+        231
+      ]
+    },
+    {
+      "name": "contour-star-inference",
+      "page": 14,
+      "box": [
+        632,
+        124,
+        740,
+        231
+      ]
+    },
+    {
+      "name": "neon-input",
+      "page": 14,
+      "box": [
+        214,
+        918,
+        357,
+        1060
+      ]
+    },
+    {
+      "name": "neon-boundary",
+      "page": 14,
+      "box": [
+        214,
+        1075,
+        357,
+        1215
+      ]
+    },
+    {
+      "name": "neon-early",
+      "page": 14,
+      "box": [
+        465,
+        932,
+        612,
+        1185
+      ]
+    },
+    {
+      "name": "neon-middle",
+      "page": 14,
+      "box": [
+        651,
+        932,
+        798,
+        1185
+      ]
+    },
+    {
+      "name": "neon-late",
+      "page": 14,
+      "box": [
+        836,
+        932,
+        983,
+        1185
+      ]
+    },
+    {
+      "name": "digit-original",
+      "page": 16,
+      "box": [
+        81,
+        518,
+        192,
+        628
+      ]
+    },
+    {
+      "name": "digit-occluded-input",
+      "page": 16,
+      "box": [
+        209,
+        518,
+        320,
+        628
+      ]
+    },
+    {
+      "name": "digit-occluded-inference",
+      "page": 16,
+      "box": [
+        338,
+        518,
+        450,
+        628
+      ]
+    },
+    {
+      "name": "digit-deleted-input",
+      "page": 16,
+      "box": [
+        466,
+        518,
+        578,
+        628
+      ]
+    },
+    {
+      "name": "digit-deleted-inference",
+      "page": 16,
+      "box": [
+        594,
+        518,
+        704,
+        628
+      ]
+    },
+    {
+      "name": "occlusion-published-chart",
+      "page": 16,
+      "box": [
+        719,
+        507,
+        1116,
+        787
+      ]
+    }
+  ]
+}

@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1024" height="1536" viewBox="0 0 1024 1536">
+<rect width="1024" height="1536" fill="white"/>
+<rect x="336" y="87" width="352" height="1356" rx="35" fill="#f5f0e5" stroke="#b6aca0" stroke-width="2"/>
+<g font-family="Helvetica" font-size="26" fill="#536877"><text x="284" y="185">I</text><text x="272" y="275">II</text><text x="260" y="435">III</text><text x="258" y="640">IV</text><text x="271" y="940">V</text><text x="254" y="1230">VI</text></g>
+<g fill="none" stroke="#c6c1b6" stroke-width="1"><path d="M336 205H688M336 325H688M336 535H688M336 755H688M336 1090H688"/></g>
+<text x="55" y="48" font-family="Helvetica" font-size="24" fill="#032f56">ROUTING GUIDE ONLY — keep the original neurons and tissue</text>
+<g fill="none" stroke-linecap="round" stroke-linejoin="round">
+<path d="M632 959C635 984 740 988 817 1040Q870 1080 870 1160V1515" stroke="#a06d43" stroke-width="12"/>
+<path d="M582 851C584 900 747 910 775 995Q795 1030 795 1090V1515" stroke="#b18755" stroke-width="10"/>
+<path d="M605 1303C611 1330 709 1332 725 1370V1515" stroke="#60798f" stroke-width="10"/>
+<path d="M264 1515V760Q264 638 386 631" stroke="#bb9650" stroke-width="9"/>
+</g>
+<path d="M632 907L653 959H611Z" fill="#a06d43" stroke="white" stroke-width="3"/>
+<path d="M582 824L593 851H571Z" fill="#b18755" stroke="white" stroke-width="3"/>
+<path d="M605 1268Q622 1286 605 1303Q588 1286 605 1268Z" fill="#60798f" stroke="white" stroke-width="3"/>
+<g font-family="Helvetica" font-size="23" fill="#032f56"><text x="705" y="816">SMALL layer V neuron</text><text x="705" y="845">→ thalamus</text><text x="710" y="926">LARGE layer V neuron</text><text x="710" y="955">→ motor centers</text><text x="720" y="1266">Layer VI neuron</text><text x="720" y="1295">→ thalamus</text><text x="40" y="1090">GOLD input</text><text x="40" y="1120">from thalamus</text></g>
+</svg>

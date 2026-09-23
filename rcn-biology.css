@@ -1,0 +1,184 @@
+.biology-figure { width:min(890px,calc(100vw - 3rem)); position:relative; left:50%; transform:translateX(-50%); margin:2.2rem 0; color:var(--navy); border-top:1px solid var(--rule); padding-top:1rem; }
+.bio-toolbar { display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:.7rem; margin-bottom:1.3rem; }
+.bio-hint { color:#7e8d83; font:.73rem var(--ui); }
+.bio-controls { display:flex; gap:.3rem; flex-wrap:wrap; }
+.bio-controls button { border:1px solid #d6e1da; border-radius:5px; padding:.55rem .75rem; background:white; color:#76877c; font:.77rem var(--ui); cursor:pointer; }
+.bio-controls button:hover { border-color:var(--route); color:var(--route); }
+.bio-controls button[aria-pressed=true] { background:#f0f5f0; border-color:var(--route); color:var(--route); }
+.bio-controls button:focus-visible { outline:2px solid var(--route); outline-offset:3px; }
+.bio-pair { display:grid; grid-template-columns:1fr 1fr; gap:0; }
+.bio-panel { padding:0 .75rem; }
+.bio-panel + .bio-panel { border-left:1px solid #e0e7df; }
+.bio-panel-heading { text-align:center; font:400 1.25rem var(--display); margin:0; }
+.bio-panel-subtitle { text-align:center; font:.73rem/1.4 var(--ui); color:#849087; margin:.35rem 0 .6rem; min-height:1.1rem; }
+.bio-panel svg { width:100%; height:auto; display:block; overflow:visible; }
+.bio-panel svg text { font:13px var(--ui); fill:#365748; }
+.bio-panel svg .bio-small { font-size:12px; fill:#7b8c80; }
+.bio-panel svg .bio-layer { font:13px var(--mono); fill:#8b968e; }
+.bio-panel svg .bio-eyebrow,.bio-panel svg .bio-vertical { font:10px var(--mono); letter-spacing:.1em; fill:#91a095; }
+.bio-vertical { writing-mode:vertical-rl; }
+.bio-column { fill:#f7f8f3; stroke:#dae3d8; }
+.bio-layer-rule { stroke:#dbe3d8; stroke-width:1; }
+.bio-region { fill:#f4f7f2; stroke:#d6e0d5; }
+.bio-thalamus { fill:#faf3e9; stroke:#e6d7c3; }
+.bio-graph-band { fill:#f1f6f2; fill-opacity:.7; }
+.bio-graph-feedback { fill:#f3eff5; }
+.bio-route { color:var(--route); transition:opacity .22s; cursor:pointer; }
+.bio-route.is-muted { opacity:.12; }
+.bio-wire { fill:none; stroke:currentColor; stroke-width:1.7; stroke-linecap:round; stroke-linejoin:round; }
+.bio-neuron { stroke:currentColor; stroke-width:1.7; stroke-linejoin:round; fill:none; }
+.bio-neuron circle,.bio-neuron .bio-soma { fill:currentColor; }
+.bio-variable circle { fill:white; stroke:currentColor; stroke-width:1.8; }
+.bio-variable text { fill:var(--route)!important; font:italic 15px var(--display)!important; }
+.bio-factor rect { fill:currentColor; }
+.bio-route .bio-message { opacity:0; transition:opacity .2s; pointer-events:none; }
+.bio-message rect { fill:white; stroke:currentColor; stroke-width:.5; }
+.bio-message text { font:10.5px var(--mono)!important; fill:var(--route)!important; }
+.bio-route.is-active .bio-message { opacity:1; }
+.bio-route.is-active .bio-flow { stroke-width:2.4; stroke-dasharray:5 5; animation:bio-message-flow 1s linear infinite; }
+@keyframes bio-message-flow { to { stroke-dashoffset:-20; } }
+.bio-details { border-top:1px solid var(--rule); padding-top:.9rem; margin-top:.7rem; min-height:164px; }
+.bio-details h4 { font:400 1.2rem/1.4 var(--display); margin:0 0 .65rem; }
+.bio-detail-pair { display:grid; grid-template-columns:1fr 1fr; gap:1.8rem; }
+.bio-detail-pair p { font:.85rem/1.55 var(--ui); color:#718074; margin:0; }
+.biology-figure figcaption { border-top:1px solid var(--rule); padding-top:.85rem; margin-top:1rem; font:.9rem/1.55 var(--body); }
+.bio-key { display:flex; justify-content:center; gap:1rem; color:#859289; font:.7rem var(--ui); margin:.5rem 0; }
+.bio-key span { display:inline-flex; align-items:center; gap:.35rem; }.bio-key i { display:inline-block; width:9px; height:9px; background:#548c87; }
+.bio-key .bio-key-variable { border:1.4px solid #548c87; border-radius:50%; background:white; }
+@media(min-width:1141px) { .biology-figure { width:min(890px,calc(50vw + 297px)); left:0; transform:none; } }
+@media(max-width:650px) { .biology-figure { width:100%; left:0; transform:none; }.bio-toolbar { gap:.7rem; }.bio-controls { gap:.35rem; }.bio-controls button { padding:.55rem .6rem; }.bio-pair { grid-template-columns:1fr; gap:1.4rem; }.bio-panel { padding:0; }.bio-panel+.bio-panel { border-left:0; border-top:1px solid var(--rule); padding:1rem 0 0; }.bio-panel svg { max-width:420px; margin:auto; }.bio-detail-pair { grid-template-columns:1fr; gap:.7rem; }.bio-details { min-height:0; }.bio-panel-heading { font-size:1.2rem; } }
+@media(prefers-reduced-motion:reduce) { .bio-route,.bio-message { transition:none!important; }.bio-route.is-active .bio-flow { animation:none; stroke-dasharray:none; } }
+
+.bio-exemplar-toolbar { display:flex; align-items:center; justify-content:space-between; gap:1rem; margin-bottom:1.1rem; }
+.bio-exemplar-toolbar p { color:#839187; font:.8rem/1.5 var(--ui); margin:0; }
+.bio-exemplars { display:flex; gap:.5rem; margin-top:.5rem; }
+.bio-exemplars button { display:flex; align-items:center; gap:.6rem; padding:.5rem 1rem; border:1px solid #d1ddd5; border-radius:5px; background:white; color:#7b8b80; font:.8rem var(--ui); cursor:pointer; }
+.bio-exemplars button[aria-pressed=true] { background:#edf4ef; color:#376e69; border-color:#548c87; }
+.bio-exemplars button:focus-visible { outline:2px solid #548c87; outline-offset:3px; }
+.bio-exemplar-glyph { font:1.35rem var(--display); color:var(--navy); }
+.bio-panel svg .bio-exemplar-label { font:22px var(--display); fill:var(--navy); }
+.bio-context { transition:opacity .3s; }
+.bio-context.is-unselected { opacity:.08; filter:grayscale(1); }
+.bio-edge-symbol { stroke:currentColor; stroke-width:2.3; stroke-linecap:round; }
+.bio-factor-and rect { fill:#032f56; }
+.bio-factor-lateral rect { fill:#0f67a2; }
+.bio-lateral-wire { stroke:#0f67a2; }
+.bio-feature-lane { fill:#f0f5ef; opacity:.8; }
+.bio-panel svg .bio-copy-label { font:10px var(--ui); fill:currentColor; }
+.bio-feature.is-feature-focus .bio-column,.bio-feature.is-feature-focus .bio-feature-lane { stroke:#548c87; stroke-width:2; }
+.bio-feature.is-feature-focus .bio-variable circle { stroke-width:3; }
+.bio-key .bio-key-and { background:#032f56; }
+.bio-key .bio-key-lateral { background:#0f67a2; }
+.bio-feedback-annotation { opacity:0; }
+.biology-figure[data-active=feedback] .bio-feedback-annotation { opacity:1; }
+.biology-figure[data-active=feedback] [data-bio-slot="bio-graph"] .bio-flow { animation-direction:reverse; }
+.biology-figure[data-active=feedback] [data-bio-slot="bio-graph"] .bio-message { opacity:0; }
+@media(max-width:650px) { .bio-exemplar-toolbar { align-items:flex-start; flex-direction:column; gap:.5rem; }.bio-exemplar-toolbar p br { display:none; }.bio-key { gap:.65rem; } }
+@media(prefers-reduced-motion:reduce) { .bio-context { transition:none; } }
+
+.bio-factor-or rect { fill:#b07843; }
+.bio-key .bio-key-or { background:#b07843; }
+
+.biology-figure[data-active=feedback] [data-bio-slot="bio-graph"] .is-active .bio-flow { stroke:#8d7598; }
+
+/* A graph edge is bidirectional; each anatomical path has its own source. */
+.bio-target { cursor:pointer; outline:none; }
+.bio-hit { fill:none; stroke:transparent; stroke-width:13; pointer-events:stroke; }
+.bio-target > .bio-wire,.bio-bidirectional { pointer-events:none; }
+.bio-bidirectional { display:none; fill:none; stroke-width:2.2; stroke-linecap:round; stroke-dasharray:4 7; }
+.bio-up { stroke:#0f67a2; transform:translate(-2px,-2px); }
+.bio-down { stroke:#8d7598; transform:translate(2px,2px); }
+.bio-target:focus-visible .bio-variable circle { stroke-width:3; }
+.bio-part { transition:opacity .16s; pointer-events:none; }
+.bio-direction-key { display:flex; justify-content:center; gap:1.3rem; margin:.7rem 0 .4rem; color:#7b8c80; font:.75rem var(--ui); }
+.bio-direction-key span { display:inline-flex; align-items:center; gap:.4rem; }
+.bio-direction-key i { width:23px; border-top:2px dashed #0f67a2; }
+.bio-direction-key span+span i { border-color:#8d7598; }
+.bio-inspect-hint { text-align:center; color:#7b8c80; font:.75rem/1.5 var(--ui); margin:.3rem 0 .8rem; }
+.bio-panel svg .bio-explore-hint text { font:italic 13px var(--display); fill:#548c87; }
+.bio-explore-hint path { fill:none; stroke:#548c87; stroke-width:1.3; stroke-linecap:round; stroke-linejoin:round; }
+#bio-hover-hint text { paint-order:stroke; stroke:white; stroke-width:4; stroke-linejoin:round; }
+.biology-figure.bio-inspecting .bio-explore-hint { opacity:.35; }
+.biology-figure.bio-inspecting .bio-route,
+.biology-figure.bio-inspecting .bio-context { opacity:1; }
+.biology-figure.bio-inspecting .bio-part,
+.biology-figure.bio-inspecting .bio-target { opacity:.10; }
+.biology-figure.bio-inspecting .bio-part.is-mapped,
+.biology-figure.bio-inspecting .bio-target.is-mapped,
+.biology-figure.bio-inspecting .bio-target.is-endpoint { opacity:1; }
+.biology-figure.bio-inspecting .bio-part[data-direction=up].is-mapped { color:#0f67a2; }
+.biology-figure.bio-inspecting .bio-part[data-direction=down].is-mapped { color:#8d7598; }
+.biology-figure.bio-inspecting .bio-flow { animation:none; stroke-dasharray:none; stroke-width:1.7; }
+.biology-figure.bio-inspecting .bio-part.is-mapped .bio-flow { stroke:currentColor; stroke-width:2.5; stroke-dasharray:5 5; animation:bio-message-flow 1.2s linear infinite; }
+.biology-figure.bio-inspecting .bio-target-edge.is-mapped > .bio-wire { opacity:.12; }
+.biology-figure.bio-inspecting .bio-target-edge.is-mapped .bio-bidirectional { display:block; animation:bio-message-flow 1.2s linear infinite; }
+.biology-figure.bio-inspecting .bio-target-edge.is-mapped .bio-down { animation-direction:reverse; }
+.biology-figure.bio-inspecting .bio-part.is-mapped .bio-neuron { stroke-width:2; }
+.biology-figure.bio-inspecting .bio-column,
+.biology-figure.bio-inspecting .bio-feature-lane { opacity:.45; }
+.biology-figure.bio-inspecting .bio-route > .bio-variable,
+.biology-figure.bio-inspecting .bio-copy-label { opacity:.18; }
+@media(prefers-reduced-motion:reduce) {
+ .bio-part { transition:none; }
+ .biology-figure.bio-inspecting .bio-part.is-mapped .bio-flow,
+ .biology-figure.bio-inspecting .bio-target-edge.is-mapped .bio-bidirectional { animation:none; }
+}
+
+.bio-pool-explainer { display:grid; grid-template-columns:1fr 1fr; gap:1.5rem; padding:.6rem 0 .8rem; }
+.bio-pool-explainer p { margin:0; color:#718074; font:.8rem/1.5 var(--ui); }
+.bio-pool-explainer strong { display:block; color:#365748; font-weight:500; }
+.bio-candidate-set { fill:#e8f2ed; fill-opacity:.65; stroke:#c4d8cc; stroke-width:.8; pointer-events:none; }
+.bio-panel svg .bio-candidate-label { font:10px var(--mono); fill:#758b7c; }
+.biology-figure.bio-inspecting .bio-candidate-set { opacity:.35; }
+.biology-figure.bio-inspecting .bio-candidate-label { opacity:.5; }
+@media(max-width:650px) { .bio-pool-explainer { gap:.8rem; }.bio-pool-explainer p { font-size:.75rem; } }
+
+.biology-figure.bio-inspecting .bio-target.is-related { opacity:1; }
+.biology-figure.bio-inspecting .bio-target.is-related > .bio-wire { stroke-width:2.1; }
+.bio-part[data-bio-part*="-lateral-"] .bio-wire { stroke-width:1.2; opacity:.5; }
+.biology-figure.bio-inspecting .bio-part.is-mapped .bio-wire { opacity:1; }
+
+.biology-figure.bio-inspecting .bio-candidate-set.is-related { opacity:1; stroke:#0f67a2; stroke-width:1.3; }
+
+/* Only the selected exemplar is interactive. */
+.biology-figure[data-active=overview]:not(.bio-inspecting) .bio-context.is-unselected { opacity:.1; }
+[data-bio-slot="bio-graph"] .bio-target { pointer-events:auto; }
+[data-bio-slot="bio-graph"] .bio-copy-label,[data-bio-slot="bio-graph"] .bio-small,[data-bio-slot="bio-graph"] .bio-candidate-label { pointer-events:none; }
+.bio-pixel-background { fill:#eaf0e7; }
+.bio-pixel-edge { fill:#0f67a2; }
+
+.biology-figure.bio-inspecting .bio-context { filter:none; }
+
+/* Apical shafts belong to neurons; only axons carry the animated dashes. */
+.bio-dendrite { stroke-width:1.1; }
+.bio-part[data-bio-circuit-target] { pointer-events:visiblePainted; cursor:pointer; outline:none; }
+.bio-neuron-hit { fill:transparent!important; stroke:none; pointer-events:all; }
+.bio-circuit-hit { fill:none; stroke:transparent; stroke-width:8; pointer-events:stroke; }
+.bio-part:focus-visible .bio-soma,.bio-part:focus-visible .bio-neuron > circle:not(.bio-neuron-hit) { stroke-width:3; }
+.biology-figure .bio-context.is-unselected,
+.biology-figure .bio-context.is-unselected * { pointer-events:none!important; }
+.biology-figure.bio-inspecting .bio-context.is-unselected { opacity:.08; filter:grayscale(1); }
+/* Top-level identities stay clickable; inactive internal circuitry does not. */
+.biology-figure .bio-context.is-unselected .bio-exemplar-pick,
+.biology-figure .bio-context.is-unselected .bio-exemplar-pick * { pointer-events:auto!important; }
+.biology-figure .bio-context.bio-selector-context.is-unselected { opacity:.48; }
+.biology-figure .bio-exemplar-pick { cursor:pointer; outline:none; }
+.biology-figure .bio-exemplar-pick[aria-pressed=true].bio-region { stroke:#548c87; stroke-width:1.8; }
+.biology-figure .bio-exemplar-pick[aria-pressed=true] .bio-variable circle { stroke-width:2.6; fill:#edf4ef; }
+.biology-figure .bio-exemplar-pick:hover.bio-region,
+.biology-figure .bio-exemplar-pick:focus-visible.bio-region,
+.biology-figure .bio-exemplar-pick:hover .bio-variable circle,
+.biology-figure .bio-exemplar-pick:focus-visible .bio-variable circle { stroke:#548c87; stroke-width:2.8; }
+.biology-figure .bio-exemplar-pick .bio-variable { pointer-events:all; }
+
+.biology-figure .bio-selector-route { opacity:1; }
+
+.biology-figure[data-active=overview]:not(.bio-inspecting) .bio-context.bio-selector-context.is-unselected { opacity:.55; }
+.biology-figure.bio-inspecting .bio-exemplar-pick { opacity:1; }
+
+.bio-panel svg .bio-landmark-title { font-size:8px; letter-spacing:.03em; }
+.bio-retina-band { fill:#f4f6f2; }
+.biology-figure.bio-inspecting .bio-target-edge.is-mapped.bio-observed-message .bio-down { display:none; }
+[data-bio-target$="-evidence"] .bio-variable circle { fill:#f7f0e7; }
+[data-bio-target^="c"] > .bio-wire { opacity:.55; }
+.biology-figure.bio-inspecting [data-bio-target^="c"].is-related > .bio-wire { opacity:1; }

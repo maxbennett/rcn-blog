@@ -1,0 +1,129 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="30 30 140 140">
+<title>Learned exemplar: landmarks and lateral constraints</title>
+<path d="M83 74 L87 74" fill="none" stroke="#8cae9e" stroke-width="1.2"/>
+<path d="M83 74 L79 78" fill="none" stroke="#8cae9e" stroke-width="1.2"/>
+<path d="M87 74 L91 74" fill="none" stroke="#8cae9e" stroke-width="1.2"/>
+<path d="M91 74 L95 74" fill="none" stroke="#8cae9e" stroke-width="1.2"/>
+<path d="M95 74 L99 74" fill="none" stroke="#8cae9e" stroke-width="1.2"/>
+<path d="M99 74 L103 74" fill="none" stroke="#8cae9e" stroke-width="1.2"/>
+<path d="M99 74 L99 84" fill="none" stroke="#8cae9e" stroke-width="1.2"/>
+<path d="M103 74 L107 74" fill="none" stroke="#8cae9e" stroke-width="1.2"/>
+<path d="M107 74 L111 76" fill="none" stroke="#8cae9e" stroke-width="1.2"/>
+<path d="M111 76 L115 78" fill="none" stroke="#8cae9e" stroke-width="1.2"/>
+<path d="M79 78 L81 82" fill="none" stroke="#8cae9e" stroke-width="1.2"/>
+<path d="M115 78 L119 82" fill="none" stroke="#8cae9e" stroke-width="1.2"/>
+<path d="M81 82 L85 85" fill="none" stroke="#8cae9e" stroke-width="1.2"/>
+<path d="M119 82 L121 86" fill="none" stroke="#8cae9e" stroke-width="1.2"/>
+<path d="M95 84 L99 84" fill="none" stroke="#8cae9e" stroke-width="1.2"/>
+<path d="M95 84 L91 86" fill="none" stroke="#8cae9e" stroke-width="1.2"/>
+<path d="M99 84 L103 84" fill="none" stroke="#8cae9e" stroke-width="1.2"/>
+<path d="M103 84 L107 86" fill="none" stroke="#8cae9e" stroke-width="1.2"/>
+<path d="M85 85 L91 86" fill="none" stroke="#8cae9e" stroke-width="1.2"/>
+<path d="M107 86 L110 90" fill="none" stroke="#8cae9e" stroke-width="1.2"/>
+<path d="M121 86 L121 90" fill="none" stroke="#8cae9e" stroke-width="1.2"/>
+<path d="M110 90 L110 94" fill="none" stroke="#8cae9e" stroke-width="1.2"/>
+<path d="M121 90 L121 94" fill="none" stroke="#8cae9e" stroke-width="1.2"/>
+<path d="M110 94 L106 98" fill="none" stroke="#8cae9e" stroke-width="1.2"/>
+<path d="M110 94 L120 98" fill="none" stroke="#8cae9e" stroke-width="1.2"/>
+<path d="M121 94 L120 98" fill="none" stroke="#8cae9e" stroke-width="1.2"/>
+<path d="M106 98 L103 102" fill="none" stroke="#8cae9e" stroke-width="1.2"/>
+<path d="M120 98 L118 102" fill="none" stroke="#8cae9e" stroke-width="1.2"/>
+<path d="M103 102 L98 106" fill="none" stroke="#8cae9e" stroke-width="1.2"/>
+<path d="M118 102 L115 106" fill="none" stroke="#8cae9e" stroke-width="1.2"/>
+<path d="M142 102 L141 106" fill="none" stroke="#8cae9e" stroke-width="1.2"/>
+<path d="M137 103 L141 106" fill="none" stroke="#8cae9e" stroke-width="1.2"/>
+<path d="M137 103 L132 105" fill="none" stroke="#8cae9e" stroke-width="1.2"/>
+<path d="M132 105 L126 107" fill="none" stroke="#8cae9e" stroke-width="1.2"/>
+<path d="M98 106 L92 108" fill="none" stroke="#8cae9e" stroke-width="1.2"/>
+<path d="M115 106 L113 110" fill="none" stroke="#8cae9e" stroke-width="1.2"/>
+<path d="M115 106 L120 109" fill="none" stroke="#8cae9e" stroke-width="1.2"/>
+<path d="M141 106 L139 110" fill="none" stroke="#8cae9e" stroke-width="1.2"/>
+<path d="M126 107 L120 109" fill="none" stroke="#8cae9e" stroke-width="1.2"/>
+<path d="M92 108 L88 110" fill="none" stroke="#8cae9e" stroke-width="1.2"/>
+<path d="M120 109 L124 117" fill="none" stroke="#8cae9e" stroke-width="1.2"/>
+<path d="M88 110 L84 112" fill="none" stroke="#8cae9e" stroke-width="1.2"/>
+<path d="M139 110 L135 113" fill="none" stroke="#8cae9e" stroke-width="1.2"/>
+<path d="M80 112 L84 112" fill="none" stroke="#8cae9e" stroke-width="1.2"/>
+<path d="M80 112 L76 113" fill="none" stroke="#8cae9e" stroke-width="1.2"/>
+<path d="M84 112 L85 124" fill="none" stroke="#8cae9e" stroke-width="1.2"/>
+<path d="M76 113 L71 114" fill="none" stroke="#8cae9e" stroke-width="1.2"/>
+<path d="M135 113 L130 115" fill="none" stroke="#8cae9e" stroke-width="1.2"/>
+<path d="M71 114 L66 115" fill="none" stroke="#8cae9e" stroke-width="1.2"/>
+<path d="M66 115 L64 119" fill="none" stroke="#8cae9e" stroke-width="1.2"/>
+<path d="M130 115 L124 117" fill="none" stroke="#8cae9e" stroke-width="1.2"/>
+<path d="M124 117 L120 119" fill="none" stroke="#8cae9e" stroke-width="1.2"/>
+<path d="M64 119 L65 123" fill="none" stroke="#8cae9e" stroke-width="1.2"/>
+<path d="M120 119 L114 120" fill="none" stroke="#8cae9e" stroke-width="1.2"/>
+<path d="M110 120 L114 120" fill="none" stroke="#8cae9e" stroke-width="1.2"/>
+<path d="M110 120 L106 121" fill="none" stroke="#8cae9e" stroke-width="1.2"/>
+<path d="M106 121 L100 122" fill="none" stroke="#8cae9e" stroke-width="1.2"/>
+<path d="M100 122 L96 123" fill="none" stroke="#8cae9e" stroke-width="1.2"/>
+<path d="M65 123 L69 125" fill="none" stroke="#8cae9e" stroke-width="1.2"/>
+<path d="M92 123 L96 123" fill="none" stroke="#8cae9e" stroke-width="1.2"/>
+<path d="M92 123 L85 124" fill="none" stroke="#8cae9e" stroke-width="1.2"/>
+<path d="M81 124 L85 124" fill="none" stroke="#8cae9e" stroke-width="1.2"/>
+<path d="M81 124 L77 125" fill="none" stroke="#8cae9e" stroke-width="1.2"/>
+<path d="M69 125 L73 125" fill="none" stroke="#8cae9e" stroke-width="1.2"/>
+<path d="M73 125 L77 125" fill="none" stroke="#8cae9e" stroke-width="1.2"/>
+<circle cx="83" cy="74" r="1.8" fill="#0f67a2"/>
+<circle cx="87" cy="74" r="1.8" fill="#548c87"/>
+<circle cx="91" cy="74" r="1.8" fill="#548c87"/>
+<circle cx="95" cy="74" r="1.8" fill="#548c87"/>
+<circle cx="99" cy="74" r="1.8" fill="#548c87"/>
+<circle cx="103" cy="74" r="1.8" fill="#548c87"/>
+<circle cx="107" cy="74" r="1.8" fill="#548c87"/>
+<circle cx="111" cy="76" r="1.8" fill="#548c87"/>
+<circle cx="79" cy="78" r="1.8" fill="#032f56"/>
+<circle cx="115" cy="78" r="1.8" fill="#548c87"/>
+<circle cx="81" cy="82" r="1.8" fill="#987143"/>
+<circle cx="119" cy="82" r="1.8" fill="#987143"/>
+<circle cx="95" cy="84" r="1.8" fill="#0f67a2"/>
+<circle cx="99" cy="84" r="1.8" fill="#548c87"/>
+<circle cx="103" cy="84" r="1.8" fill="#548c87"/>
+<circle cx="85" cy="85" r="1.8" fill="#548c87"/>
+<circle cx="91" cy="86" r="1.8" fill="#0f67a2"/>
+<circle cx="107" cy="86" r="1.8" fill="#548c87"/>
+<circle cx="121" cy="86" r="1.8" fill="#987143"/>
+<circle cx="110" cy="90" r="1.8" fill="#032f56"/>
+<circle cx="121" cy="90" r="1.8" fill="#032f56"/>
+<circle cx="110" cy="94" r="1.8" fill="#032f56"/>
+<circle cx="121" cy="94" r="1.8" fill="#032f56"/>
+<circle cx="106" cy="98" r="1.8" fill="#0f67a2"/>
+<circle cx="120" cy="98" r="1.8" fill="#032f56"/>
+<circle cx="103" cy="102" r="1.8" fill="#0f67a2"/>
+<circle cx="118" cy="102" r="1.8" fill="#032f56"/>
+<circle cx="142" cy="102" r="1.8" fill="#548c87"/>
+<circle cx="137" cy="103" r="1.8" fill="#548c87"/>
+<circle cx="132" cy="105" r="1.8" fill="#548c87"/>
+<circle cx="98" cy="106" r="1.8" fill="#0f67a2"/>
+<circle cx="115" cy="106" r="1.8" fill="#032f56"/>
+<circle cx="141" cy="106" r="1.8" fill="#987143"/>
+<circle cx="126" cy="107" r="1.8" fill="#548c87"/>
+<circle cx="92" cy="108" r="1.8" fill="#0f67a2"/>
+<circle cx="120" cy="109" r="1.8" fill="#548c87"/>
+<circle cx="88" cy="110" r="1.8" fill="#0f67a2"/>
+<circle cx="113" cy="110" r="1.8" fill="#987143"/>
+<circle cx="139" cy="110" r="1.8" fill="#032f56"/>
+<circle cx="80" cy="112" r="1.8" fill="#0f67a2"/>
+<circle cx="84" cy="112" r="1.8" fill="#0f67a2"/>
+<circle cx="76" cy="113" r="1.8" fill="#0f67a2"/>
+<circle cx="135" cy="113" r="1.8" fill="#0f67a2"/>
+<circle cx="71" cy="114" r="1.8" fill="#0f67a2"/>
+<circle cx="66" cy="115" r="1.8" fill="#0f67a2"/>
+<circle cx="130" cy="115" r="1.8" fill="#0f67a2"/>
+<circle cx="124" cy="117" r="1.8" fill="#0f67a2"/>
+<circle cx="64" cy="119" r="1.8" fill="#032f56"/>
+<circle cx="120" cy="119" r="1.8" fill="#0f67a2"/>
+<circle cx="110" cy="120" r="1.8" fill="#0f67a2"/>
+<circle cx="114" cy="120" r="1.8" fill="#548c87"/>
+<circle cx="106" cy="121" r="1.8" fill="#0f67a2"/>
+<circle cx="100" cy="122" r="1.8" fill="#548c87"/>
+<circle cx="65" cy="123" r="1.8" fill="#987143"/>
+<circle cx="92" cy="123" r="1.8" fill="#548c87"/>
+<circle cx="96" cy="123" r="1.8" fill="#548c87"/>
+<circle cx="81" cy="124" r="1.8" fill="#548c87"/>
+<circle cx="85" cy="124" r="1.8" fill="#548c87"/>
+<circle cx="69" cy="125" r="1.8" fill="#548c87"/>
+<circle cx="73" cy="125" r="1.8" fill="#548c87"/>
+<circle cx="77" cy="125" r="1.8" fill="#548c87"/>
+</svg>

@@ -1,0 +1,63 @@
+.results-figure { margin:2rem 0 2.2rem; color:var(--navy); }
+.results-figure figcaption { border-top:1px solid var(--rule); margin-top:1.1rem; padding-top:.85rem; font:.92rem/1.55 var(--body); }
+.results-figure figcaption strong { color:var(--navy); }
+.results-toolbar { display:flex; flex-wrap:wrap; align-items:center; justify-content:space-between; gap:.8rem; border-top:1px solid var(--rule); padding-top:1rem; }
+.results-kicker { color:#7c8980; font:.67rem/1.5 var(--mono); letter-spacing:.03em; text-transform:uppercase; }
+.results-metrics { display:grid; grid-template-columns:1fr 1fr; gap:1rem; margin:1.5rem 0 .1rem; }
+.results-metrics > div { display:grid; grid-template-columns:1fr auto; align-items:baseline; padding:.35rem .9rem .65rem; border-left:2px solid #548c87; }
+.results-metrics > div:last-child { border-color:#b76356; }
+.results-model { font:600 .86rem var(--ui); }.results-model.rcn { color:#548c87; }.results-model.cnn { color:#b76356; }
+.results-metrics strong { font:400 1.65rem var(--display); font-variant-numeric:tabular-nums; }
+.results-metrics small { grid-column:1/-1; color:#7c8980; font:.76rem/1.5 var(--ui); margin-top:.4rem; }
+.results-chart { width:100%; display:block; margin:.4rem 0; }
+.results-chart text { font:12px var(--ui); fill:#74857b; }
+.results-chart .results-annotation { font-size:13px; fill:#032f56; }
+.results-chart .results-number { font:500 17px var(--ui); }
+.results-note { font:.77rem/1.55 var(--ui); color:#738277; margin:.5rem 0; }
+#results-spacing-control { display:grid; grid-template-columns:1fr auto; gap:.5rem 1.5rem; align-items:center; background:#f1f6f2; padding:.8rem 1rem; border-radius:5px; }
+#results-spacing-control[hidden] { display:none; }
+#results-spacing-control label { font:.8rem var(--ui); color:#376e69; }#results-spacing-value { margin-left:.6rem; font-variant-numeric:tabular-nums; }
+#results-spacing-preview { grid-column:2; grid-row:1/3; color:#032f56; font:italic 1.3rem var(--display); }
+.results-figure input[type=range] { appearance:none; height:4px; background:#c9dacf; border-radius:3px; cursor:ew-resize; }
+.results-figure input[type=range]::-webkit-slider-thumb { appearance:none; width:16px; height:16px; border-radius:50%; border:3px solid #f1f6f2; background:#548c87; box-shadow:0 0 0 1px #83aaa0; }
+.results-figure input[type=range]::-moz-range-thumb { width:11px; height:11px; border-radius:50%; border:3px solid #f1f6f2; background:#548c87; }
+.captcha-figure { border-top:1px solid var(--rule); padding-top:1rem; }
+.captcha-controls { display:flex; align-items:end; gap:.65rem; flex-wrap:wrap; }
+.captcha-controls label { font:.78rem var(--ui); color:#587267; }
+.captcha-controls input[type=text] { display:block; width:145px; margin-top:.4rem; padding:.55rem .7rem; border:1px solid #b9cec0; border-radius:4px; font:1rem var(--mono); letter-spacing:.15em; color:var(--navy); background:white; }
+.captcha-controls button,#captcha-run { border:1px solid #97b4a6; border-radius:4px; padding:.65rem .85rem; font:.8rem var(--ui); background:white; color:#376e69; cursor:pointer; }
+.captcha-controls button:hover,#captcha-run:hover { background:#edf4ee; }
+.captcha-picture { margin-top:1.1rem; padding:.8rem 1rem; border:1px solid #d5e2d8; border-radius:5px; background:#fafcf9; }
+#captcha-canvas { display:block; width:100%; height:auto; max-height:200px; object-fit:contain; margin:.5rem 0; background:white; }
+.captcha-spacing { display:grid; grid-template-columns:minmax(0,1fr); gap:.6rem; max-width:350px; margin:.8rem auto .2rem; color:#60796c; font:.78rem var(--ui); }
+.captcha-spacing label { display:flex; justify-content:space-between; }
+.captcha-spacing output { font-variant-numeric:tabular-nums; }
+.captcha-spacing input { width:100%; margin:0; }
+#captcha-spacing-hint { display:flex; justify-content:space-between; color:#819187; font-size:.7rem; }
+.captcha-run-row { display:flex; gap:1rem; align-items:center; margin:.9rem 0; }
+#captcha-run { background:#edf4ee; padding:.7rem 1rem; flex:none; }
+#captcha-run:disabled { opacity:.55; cursor:wait; }
+#captcha-status { margin:0; color:#6d8073; font:.78rem/1.45 var(--ui); }
+.captcha-prediction { display:flex; align-items:baseline; flex-wrap:wrap; gap:.5rem 1rem; padding:.8rem 0; }
+#captcha-prediction { font:400 1.65rem var(--mono); letter-spacing:.1em; color:#032f56; }
+#captcha-comparison { font:.76rem var(--ui); color:#548c87; }#captcha-comparison.is-mismatch { color:#b76356; }
+.captcha-breakdown { display:grid; grid-template-columns:repeat(auto-fit,minmax(100px,1fr)); gap:.45rem; }
+.captcha-readout { padding:.6rem; border:1px solid #d9e4dc; border-radius:4px; font:.72rem/1.5 var(--ui); color:#6f8177; }
+.captcha-readout .captcha-digit { display:flex; align-items:baseline; justify-content:space-between; color:#376e69; }
+.captcha-readout .captcha-digit strong { font:400 1.4rem var(--display); }
+.captcha-readout small { display:block; font:inherit; }
+.captcha-alternative { margin-top:.4rem; padding-top:.35rem; border-top:1px solid #e3eae5; }
+@media(max-width:520px) {
+ .results-toolbar { align-items:flex-start; }.results-metrics { gap:.45rem; }.results-metrics>div { padding:.3rem .5rem; }.results-metrics strong { font-size:1.35rem; }.results-metrics small { font-size:.7rem; }
+ .captcha-controls { gap:.45rem; }.captcha-controls button { font-size:.72rem; padding:.65rem; }.captcha-controls input[type=text] { width:115px; }.captcha-run-row { align-items:flex-start; flex-direction:column; gap:.6rem; }
+ #results-spacing-control { grid-template-columns:1fr; }#results-spacing-preview { display:none; }.captcha-picture { padding:.6rem; }
+}
+
+@media(max-width:520px) {
+ .results-chart text { font-size:18px; }
+ .results-chart .results-number { font-size:22px; }
+ .captcha-breakdown { grid-template-columns:repeat(2,minmax(0,1fr)); }
+}
+
+.captcha-controls select { display:block; min-width:145px; margin-top:.4rem; padding:.55rem 2rem .55rem .7rem; border:1px solid #97b4a6; border-radius:4px; font:1rem var(--mono); letter-spacing:.12em; color:var(--navy); background:white; cursor:pointer; }
+.captcha-controls > .results-kicker { margin-left:auto; padding-bottom:.6rem; }

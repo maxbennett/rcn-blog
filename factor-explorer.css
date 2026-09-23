@@ -1,0 +1,91 @@
+/* The manuscript's static factorization and inspectable local tables. */
+.symptom-inventory-columns { display:grid; grid-template-columns:1fr 1fr; gap:1.5rem; }
+.symptom-inventory-columns table { font-size:.9rem; }
+.symptom-inventory-columns caption { font-size:1rem; color:var(--navy); }
+.symptom-inventory-columns td { text-align:left; }
+.symptom-inventory-columns .factor-symbol { width:3rem; }
+.factor-symbol { font-family:var(--display); font-style:italic; color:var(--navy); }
+.symptom-inventory-columns table:first-child .factor-symbol { color:#548c87; }
+.symptom-inventory-columns table:last-child .factor-symbol { color:#987143; }
+.symptom-disease-label { display:flex; align-items:center; gap:1rem; border-bottom:1px solid var(--rule); margin-top:1.2rem; padding:.6rem .3rem; font:.95rem var(--ui); color:var(--navy); }
+.symptom-disease-label .factor-symbol { width:2rem; }
+.symptom-disease-label span:last-child { margin-left:auto; color:var(--muted); }
+.factor-scale { display:flex; align-items:center; justify-content:space-between; gap:.7rem; border-block:1px solid var(--rule); margin:1.7rem 0; padding:1.3rem 0; }
+.factor-scale div { display:flex; flex-direction:column; gap:.5rem; }
+.factor-scale strong { font:400 clamp(1.5rem,3vw,2.5rem)/1.15 var(--display); color:var(--navy); }
+.factor-scale strong sup { font-size:.55em; }
+.factor-scale div span { font:.85rem/1.4 var(--ui); color:var(--muted); }
+.factor-scale-operator { color:#9eadaf; font:1.4rem var(--display); }
+.factor-benefits p { margin-bottom:.5rem; }
+.factor-map-legend { display:flex; gap:1.2rem; flex-wrap:wrap; color:var(--muted); font:.85rem var(--ui); margin-bottom:1.2rem; }
+.factor-map-legend span { display:flex; align-items:center; gap:.45rem; }
+.factor-map-legend i { display:block; width:12px; height:12px; border:1.5px solid #548c87; }
+.factor-legend-circle { border-radius:50%; }
+.factor-legend-square { background:#548c87; }
+.factor-map-scroll { overflow-x:auto; overscroll-behavior-x:contain; scrollbar-width:thin; }
+.factor-map { width:100%; min-width:580px; height:auto; display:block; overflow:visible; }
+.factor-map-edge { stroke:#cbd4d5; fill:none; stroke-width:1.3; transition:stroke .15s,opacity .15s; }
+.factor-map-variable, .factor-map-button { transition:opacity .15s; }
+.factor-map-variable circle { fill:white; stroke:currentColor; stroke-width:1.6; }
+.factor-map text { fill:currentColor; }
+.factor-map-symbol { text-anchor:middle; font:21px var(--display); }
+.factor-map-variable-name { text-anchor:middle; font:14px var(--ui); paint-order:stroke; stroke:white; stroke-width:5px; stroke-linejoin:round; }
+.factor-map-factor-name { font:14px var(--body); font-style:italic; paint-order:stroke; stroke:white; stroke-width:5px; }
+.factor-map-button { cursor:pointer; outline:none; }
+.factor-hit-area { fill:transparent; stroke:transparent; }
+.factor-square { fill:currentColor; stroke:white; stroke-width:2px; }
+.factor-map-button:hover .factor-hit-area, .factor-map-button:focus-visible .factor-hit-area, .factor-map-button.is-related .factor-hit-area { fill:#f9f6ee; stroke:currentColor; stroke-width:1px; }
+.factor-map.has-selection .factor-map-variable:not(.is-related), .factor-map.has-selection .factor-map-button:not(.is-related) { opacity:.25; }
+.factor-map.has-selection .factor-map-edge:not(.is-related) { opacity:.18; }
+.factor-map-edge.is-related { stroke:currentColor; stroke-width:2.2; }
+.factor-map-variable.is-related circle { stroke-width:2.4; }
+.factor-inspector { position:fixed; z-index:500; width:304px; max-width:calc(100vw - 24px); max-height:calc(100dvh - 24px); overflow:auto; background:#fff; color:var(--ink); border:1px solid #cfdbd9; border-top:3px solid var(--factor-color,#548c87); padding:.7rem 1rem 1rem; box-shadow:0 6px 30px #032f561c; }
+.factor-inspector[hidden] { display:none; }
+.factor-inspector-top { display:flex; align-items:center; justify-content:space-between; gap:1rem; color:var(--muted); font:.65rem var(--mono); letter-spacing:.05em; }
+.factor-inspector-top button { width:36px; height:36px; padding:0; border:0; background:transparent; font:1.5rem var(--ui); color:var(--muted); }
+.factor-table-heading { color:var(--factor-color,#548c87); font-size:1.1rem; margin:.3rem 0 .6rem; }
+.factor-inspector p, .factor-table-entry p { font:.9rem/1.45 var(--ui); color:var(--muted); margin:0 0 .75rem; }
+.factor-inspector table { font-size:.95rem; }
+.factor-inspector th:first-child { max-width:8rem; }
+.factor-inspector td, .factor-table-entry td { font-variant-numeric:tabular-nums; }
+.factor-inspector td:last-child, .factor-table-entry td:last-child { color:var(--factor-color); }
+.factor-inspector .factor-table-note, .factor-table-entry .factor-table-note { font-size:.78rem; margin:.7rem 0 0; }
+.factor-tables-list { display:grid; grid-template-columns:1fr 1fr; gap:1.6rem 2rem; margin:.7rem 0 1rem; }
+.factor-table-entry { min-width:0; padding:.6rem 0; }
+@media(max-width:600px) {
+ .symptom-inventory-columns { grid-template-columns:1fr; gap:1.4rem; }
+ .factor-scale { display:grid; grid-template-columns:1fr auto 1fr; gap:1rem; }
+ .factor-scale > :nth-child(4) { display:none; }
+ .factor-scale > :last-child { grid-column:1/-1; padding-top:.8rem; border-top:1px solid var(--rule); }
+ .factor-scale > :last-child strong::before { content:'= '; color:#9eadaf; }
+ .factor-scale strong { font-size:2rem; }
+ .factor-inspector { width:calc(100vw - 24px); }
+ .factor-tables-list { grid-template-columns:1fr; }
+}
+@media(prefers-reduced-motion:reduce) { .factor-map-edge, .factor-map-variable, .factor-map-button { transition:none; } }
+
+.factor-map-notation { font:.82rem/1.4 var(--ui); color:var(--muted); margin:-.5rem 0 1rem; }
+
+/* Keep the compact factorization on one line; narrow screens may scroll it. */
+.pgm-equation.factorization-equation .katex { font-size:.93em; }
+.factorization-equation .katex-display { width:max-content; min-width:100%; }
+
+/* Match Figure 2's geometry and glyphs; tables remain inspectable here. */
+#factor-explorer .factor-map-scroll { overflow:visible; }
+#factor-explorer .factor-map { min-width:0; margin:.3rem 0; }
+#factor-explorer .factor-map-edge { stroke:#cad5ce; stroke-width:2; }
+#factor-explorer .factor-map-variable circle { fill:#f3f7f5; stroke:var(--tree-color); stroke-width:2; }
+#factor-explorer .factor-square { fill:#6d8e84; stroke:none; }
+#factor-explorer .factor-map-button:hover .factor-hit-area,#factor-explorer .factor-map-button:focus-visible .factor-hit-area,#factor-explorer .factor-map-button.is-related .factor-hit-area { fill:transparent; stroke:none; }
+#factor-explorer .factor-map-button:hover .factor-square,#factor-explorer .factor-map-button:focus-visible .factor-square { stroke:#032f56; stroke-width:3; }
+#factor-explorer .factor-map.has-selection .factor-map-variable,#factor-explorer .factor-map.has-selection .factor-map-button,#factor-explorer .factor-map.has-selection .factor-map-edge { opacity:1; }
+#factor-explorer .factor-map-edge.is-related { stroke:#548c87; stroke-width:2.5; }
+#factor-explorer .factor-map-variable.is-related circle { stroke-width:3.5; }
+.factor-graph-guide .factor-map-legend { flex-direction:column; margin:1rem 0; }
+.factor-inspector table { width:100%; border-collapse:collapse; }
+.factor-inspector th,.factor-inspector td { border-bottom:1px solid var(--rule); padding:.4rem .3rem; text-align:right; }
+.factor-inspector th:first-child { text-align:left; font-weight:400; }
+
+#factor-explorer .factor-map-variable.is-related circle { fill:#e7f1ed; stroke-width:3.5; }
+#factor-explorer .factor-map-button.is-related .factor-square { fill:#0f67a2; stroke:#032f56; stroke-width:2; }
+#factor-explorer .factor-map-button { cursor:pointer; }
