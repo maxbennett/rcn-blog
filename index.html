@@ -41,9 +41,9 @@
   <script src="rcn-forward.js?v=9" defer></script>
   <link rel="stylesheet" href="rcn-forward-graph.css?v=31">
   <script src="rcn-forward-graph.js?v=33" defer></script>
-  <link rel="stylesheet" href="rcn-results.css?v=3">
-  <script src="rcn-captcha-examples.js?v=1" defer></script>
-  <script src="rcn-results.js?v=5" defer></script>
+  <link rel="stylesheet" href="rcn-results.css?v=4">
+  <script src="rcn-captcha-examples.js?v=2" defer></script>
+  <script src="rcn-results.js?v=6" defer></script>
   <link rel="stylesheet" href="rcn-biology.css?v=17">
   <script src="rcn-biology.js?v=21" defer></script>
 </head>
@@ -412,13 +412,13 @@
           <!-- <p>On the separate, real-world reCAPTCHA test set, RCN correctly read 66.6% of complete strings, with 94.3% character accuracy. The same paper also reported whole-string accuracies of 64.4% on BotDetect, 57.4% on Yahoo, and 57.1% on PayPal. Those results belong to the full 2017 system and its dataset-specific settings—not the small contour-only model we have been walking through.</p> -->
           
           
-          <p id="captcha-playground">In Fig. 10, explore precomputed digit CAPTCHA examples from an RCN model that has learned only <strong>100 exemplars—ten per digit</strong>. Choose an image and change the spacing to see its recorded predictions.</p>
+          <p id="captcha-playground">In Fig. 10, explore precomputed digit CAPTCHA examples from an RCN model that has learned only <strong>100 exemplars—ten per digit</strong>. Refresh the CAPTCHA to cycle through fifteen selected examples that the model recognized correctly.</p>
           <figure id="rcn-captcha-figure" class="results-figure captcha-figure" aria-labelledby="rcn-captcha-caption">
-            <div class="captcha-controls"><label for="captcha-example">Choose an example<select id="captcha-example"><option value="3070">3070</option><option value="128">128</option><option value="596">596</option></select></label><span class="results-kicker">Precomputed examples</span></div>
-            <div class="captcha-picture"><span id="captcha-picture-label" class="results-kicker">Held-out handwriting · input pixels</span><canvas id="captcha-canvas" width="503" height="132" aria-label="Recorded CAPTCHA input image"></canvas><div class="captcha-spacing"><label for="captcha-spacing">Change spacing <output id="captcha-spacing-value">100%</output></label><input id="captcha-spacing" type="range" min="0" max="4" step="1" value="4" aria-describedby="captcha-spacing-hint"><div id="captcha-spacing-hint"><span>Closer / overlapping</span><span>Original spacing</span></div></div></div>
+            <div class="captcha-controls"><button type="button" id="captcha-refresh">Refresh CAPTCHA ↻</button><span id="captcha-example-count" class="results-kicker">Example 1 / 15</span></div>
+            <div class="captcha-picture"><span id="captcha-picture-label" class="results-kicker">Held-out handwriting · input pixels</span><canvas id="captcha-canvas" width="503" height="132" aria-label="Recorded CAPTCHA input image"></canvas></div>
             <div class="captcha-run-row"><p id="captcha-status" role="status" aria-live="polite">Loading recorded example…</p></div>
-            <div id="captcha-result" hidden><div class="captcha-prediction"><span class="results-kicker">Recorded prediction</span><strong id="captcha-prediction"></strong><span id="captcha-comparison"></span></div><div id="captcha-breakdown" class="captcha-breakdown"></div><p class="results-note">Scores rank explanations after backward inference; they are not confidence percentages.</p></div>
-            <figcaption id="rcn-captcha-caption"><strong>Fig. 10: Recognizing digits using RCN.</strong> Recorded outputs from the released MNIST classifier at five spacing settings. Digit separation uses a simplified adapter, rather than the paper’s full CAPTCHA parser; errors are shown as recorded.</figcaption>
+            <div id="captcha-result" hidden><div class="captcha-prediction"><span class="results-kicker">Recorded prediction</span><strong id="captcha-prediction"></strong><span id="captcha-comparison"></span></div><div id="captcha-breakdown" class="captcha-breakdown"></div></div>
+            <figcaption id="rcn-captcha-caption"><strong>Fig. 10: Recognizing digits using RCN.</strong> Fifteen selected successful predictions from the released MNIST classifier, with a simplified digit-separation adapter. These illustrate recognition; they are not an accuracy benchmark.</figcaption>
           </figure>
 
 

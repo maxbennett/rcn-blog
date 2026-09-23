@@ -61,3 +61,12 @@
 
 .captcha-controls select { display:block; min-width:145px; margin-top:.4rem; padding:.55rem 2rem .55rem .7rem; border:1px solid #97b4a6; border-radius:4px; font:1rem var(--mono); letter-spacing:.12em; color:var(--navy); background:white; cursor:pointer; }
 .captcha-controls > .results-kicker { margin-left:auto; padding-bottom:.6rem; }
+
+.captcha-controls { align-items:center; justify-content:space-between; }
+.captcha-controls > .results-kicker { padding-bottom:0; }
+#captcha-refresh { display:inline-flex; align-items:center; gap:.5rem; padding:.7rem 1rem; border-color:#86a99b; background:#edf4ee; font-weight:600; }
+#captcha-refresh:hover { background:#deece2; border-color:#548c87; }
+#captcha-refresh:focus-visible { outline:2px solid #548c87; outline-offset:3px; }
+.captcha-readout .captcha-digit { margin-top:.25rem; align-items:center; }
+.captcha-correct { display:inline-flex; align-items:center; justify-content:center; width:30px; height:30px; border-radius:50%; background:#dfefe2; color:#32714d; }
+.captcha-correct svg { width:22px; height:22px; fill:none; stroke:currentColor; stroke-width:2.7; stroke-linecap:round; stroke-linejoin:round; }

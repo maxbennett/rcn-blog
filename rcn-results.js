@@ -37,33 +37,33 @@
  }
  drawTraining();drawSpacing();
  const data=root.RCNCaptchaExamples,canvas=$('captcha-canvas'),ctx=canvas.getContext('2d');
- const spacings=[25,40,60,80,100],images=new Map();let revision=0;
+ const images=new Map();let revision=0,exampleIndex=0;
  function loadImage(src){
   if(!images.has(src))images.set(src,new Promise((resolve,reject)=>{const img=new Image();img.onload=()=>resolve(img);img.onerror=reject;img.src=src;}));
   return images.get(src);
  }
  async function showExample(){
-  const current=++revision,expected=$('captcha-example').value,spacing=spacings[Number($('captcha-spacing').value)];
-  const frame=data.frames.find(f=>f.expected===expected&&f.spacing===spacing);
-  $('captcha-spacing-value').textContent=spacing+'%';
-  $('captcha-spacing').setAttribute('aria-valuetext',spacing+'% of original spacing');
+  const current=++revision,frame=data.frames[exampleIndex],expected=frame.expected;
+  $('captcha-example-count').textContent=`Example ${exampleIndex+1} / ${data.frames.length}`;
   $('captcha-status').textContent='Loading recorded example…';
   $('captcha-result').hidden=true;
   try{
    const img=await loadImage(frame.image);if(current!==revision)return;
    canvas.width=frame.width;canvas.height=frame.height;ctx.drawImage(img,0,0);
-   canvas.setAttribute('aria-label',`Handwritten ${expected}, at ${spacing}% spacing. Recorded model prediction: ${frame.result.text}.`);
+   canvas.setAttribute('aria-label',`Handwritten ${expected}. Recorded model prediction: ${frame.result.text}.`);
    const result=frame.result,correct=expected===result.text;
    $('captcha-prediction').textContent=result.text;
    $('captcha-comparison').classList.toggle('is-mismatch',!correct);
    $('captcha-comparison').textContent=correct?'Matches the input digits':`Input: ${expected} · incorrect prediction`;
-   $('captcha-breakdown').innerHTML=result.results.map((r,i)=>`<div class="captcha-readout"><small>Region ${i+1}</small><div class="captcha-digit"><strong>${r.label===null?'?':r.label}</strong><span>${r.score===null?'—':(r.score>=0?'+':'')+r.score.toFixed(1)}</span></div><small>${r.score===null?'No valid lateral fit':'Final model score'}</small></div>`).join('');
+   $('captcha-breakdown').innerHTML=result.results.map((r,i)=>`<div class="captcha-readout"><small>Region ${i+1}</small><div class="captcha-digit"><strong>${r.label===null?'?':r.label}</strong>${String(r.label)===expected[i]?'<span class="captcha-correct" role="img" aria-label="Correctly recognized"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m6 12 4 4 8-9"/></svg></span>':''}</div></div>`).join('');
    result.results.forEach((r,i)=>{const b=r.box;ctx.strokeStyle=['#548c87','#0f67a2','#987143','#b76356'][i%4];ctx.lineWidth=1.5;ctx.strokeRect(b.x0-3,b.y0-3,b.x1-b.x0+6,b.y1-b.y0+6);ctx.font='12px sans-serif';ctx.fillStyle=ctx.strokeStyle;ctx.fillText(String(i+1),b.x0-2,Math.max(12,b.y0-7));});
    $('captcha-result').hidden=false;
-   $('captcha-status').textContent=result.results.length<expected.length?`The digit-separation step found ${result.results.length} regions for ${expected.length} digits. Overlapping digits can merge.`:'Recorded full inference · 100 exemplars';
+   $('captcha-status').textContent='Recorded full inference · 100 exemplars';
   }catch(error){if(current===revision)$('captcha-status').textContent='This recorded image could not be loaded. Please reload the page.';}
  }
- $('captcha-example').addEventListener('change',showExample);
- $('captcha-spacing').addEventListener('input',showExample);
- showExample();root.RCNResults={spacing,rcn,cnn,showExample};
+ function nextExample(){exampleIndex=(exampleIndex+1)%data.frames.length;return showExample();}
+ $('captcha-refresh').addEventListener('click',nextExample);
+ showExample();
+ data.frames.forEach(frame=>loadImage(frame.image).catch(()=>{}));
+ root.RCNResults={spacing,rcn,cnn,showExample,nextExample};
 })(globalThis);

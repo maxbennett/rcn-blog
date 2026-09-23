@@ -14,11 +14,14 @@ http://localhost:8000/ .
 
 ## CAPTCHA examples
 
-Figure 10 shows 15 recorded predictions: three input strings at five spacing settings.
+Figure 10 cycles through 15 selected successful predictions with a Refresh CAPTCHA
+button and a green checkmark for each correctly recognized region. This is an
+illustration of successful recognition, not an accuracy benchmark.
 The browser displays the saved PNG images and results in `rcn-captcha-examples.js`.
 They were produced with the released MNIST classifier and 100 learned exemplars.
 The digit-separation adapter is a simplified demo, not the full published CAPTCHA
-parser. Errors are preserved. The saved data includes model/input hashes and inference settings.
+parser. Predictions are recorded unchanged. The saved data includes model/input
+hashes, inference settings, and the selection criterion.
 
 ## Updating
 
