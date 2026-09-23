@@ -30,8 +30,8 @@
   <link rel="stylesheet" href="rcn-chapter.css?v=1">
   <script src="toy-model.js?v=2" defer></script>
   <script src="rcn-scene-model.js?v=5" defer></script>
-  <script src="rcn-chapter.js?v=21" defer></script>
-  <link rel="stylesheet" href="rcn-backward.css?v=18">
+  <script src="rcn-chapter.js?v=22" defer></script>
+  <link rel="stylesheet" href="rcn-backward.css?v=19">
   <link rel="stylesheet" href="rcn-learning.css?v=11">
   <script src="rcn-learning-data.js?v=1" defer></script>
   <script src="rcn-learning.js?v=9" defer></script>
@@ -43,7 +43,7 @@
   <script src="rcn-forward-graph.js?v=33" defer></script>
   <link rel="stylesheet" href="rcn-results.css?v=4">
   <script src="rcn-captcha-examples.js?v=2" defer></script>
-  <script src="rcn-results.js?v=6" defer></script>
+  <script src="rcn-results.js?v=7" defer></script>
   <link rel="stylesheet" href="rcn-biology.css?v=17">
   <script src="rcn-biology.js?v=21" defer></script>
 </head>
@@ -373,11 +373,11 @@
                 <div class="rb-chart-heading">Relative support</div>
                 <div class="rb-hypothesis-key"><span style="--hyp:#548c87">T</span><span style="--hyp:#0f67a2">7</span><span style="--hyp:#b76356">Bar</span></div>
                 <svg id="rcn-scene-chart" viewBox="0 0 280 200" role="img" aria-label="Relative max-product support for T, 7, and the bar during belief propagation"></svg>
-                <div class="rb-damping"><div class="rb-damping-heading"><label for="rcn-scene-damping">OR message damping</label><output id="rcn-scene-damping-value" for="rcn-scene-damping">λ = 0.50</output></div><input id="rcn-scene-damping" type="range" min="0" max="90" step="5" value="50" disabled aria-label="Damping: fraction of previous message retained"><div id="rcn-scene-damping-equation"></div></div>
+                <div class="rb-damping" hidden><div class="rb-damping-heading"><label for="rcn-scene-damping">OR message damping</label><output id="rcn-scene-damping-value" for="rcn-scene-damping">λ = 0.50</output></div><input id="rcn-scene-damping" type="range" min="0" max="90" step="5" value="50" disabled aria-label="Damping: fraction of previous message retained"><div id="rcn-scene-damping-equation"></div></div>
               </aside>
             </div>
-            <div class="rb-pass-controls"><div class="rb-forward-control"><span>01</span><button id="rcn-scene-forward" type="button">Run forward pass</button><button id="rcn-scene-skip" type="button">Skip to backward pass →</button></div><div><span>02</span><button id="rcn-scene-backward" type="button" disabled>Run backward pass</button></div><button id="rcn-scene-reset" type="button">Reset</button></div>
-            <div class="rb-timeline"><div class="rb-timeline-heading"><label for="rcn-scene-scrub">Message-passing rounds</label><div class="rb-step-controls"><output id="rcn-scene-progress" for="rcn-scene-scrub"></output><button id="rcn-scene-previous-step" type="button" disabled>← Go back</button><button id="rcn-scene-next-step" type="button" disabled>Next round → 1</button></div></div><input id="rcn-scene-scrub" type="range" min="0" max="20" step="1" value="0" disabled aria-label="Select a backward message update"><div class="rb-timeline-stages"><span>Forward result</span><span>Round 20</span></div></div>
+            <div class="rb-pass-controls"><button id="rcn-scene-forward" type="button">Run forward pass</button><button id="rcn-scene-reset" type="button">Reset</button></div>
+            <div class="rb-timeline" hidden><div class="rb-timeline-heading"><label for="rcn-scene-scrub">Message-passing rounds</label><div class="rb-step-controls"><output id="rcn-scene-progress" for="rcn-scene-scrub"></output><button id="rcn-scene-previous-step" type="button" disabled>← Go back</button><button id="rcn-scene-next-step" type="button" disabled>Next round → 1</button></div></div><input id="rcn-scene-scrub" type="range" min="0" max="20" step="1" value="0" disabled aria-label="Select a backward message update"><div class="rb-timeline-stages"><span>Forward result</span><span>Round 20</span></div></div>
             <figcaption><strong id="rcn-scene-title">Fig. 7: The backward pass explains away the bar.</strong> The bar leads after the forward pass, but backward messages reveal that T and 7 together explain the image more completely. Run both passes, then explore the rounds. Connection scores show next-round messages; hover a connection to see how its message is computed.</figcaption>
             <div id="rcn-scene-tooltip" class="bp-loop-inspector has-calculation rb-tooltip" role="tooltip" hidden></div>
           </figure>
@@ -414,7 +414,7 @@
           
           <p id="captcha-playground">In Fig. 10, explore precomputed digit CAPTCHA examples from an RCN model that has learned only <strong>100 exemplars—ten per digit</strong>. Refresh the CAPTCHA to cycle through fifteen selected examples that the model recognized correctly.</p>
           <figure id="rcn-captcha-figure" class="results-figure captcha-figure" aria-labelledby="rcn-captcha-caption">
-            <div class="captcha-controls"><button type="button" id="captcha-refresh">Refresh CAPTCHA ↻</button><span id="captcha-example-count" class="results-kicker">Example 1 / 15</span></div>
+            <div class="captcha-controls"><button type="button" id="captcha-refresh">Refresh CAPTCHA ↻</button></div>
             <div class="captcha-picture"><span id="captcha-picture-label" class="results-kicker">Held-out handwriting · input pixels</span><canvas id="captcha-canvas" width="503" height="132" aria-label="Recorded CAPTCHA input image"></canvas></div>
             <div class="captcha-run-row"><p id="captcha-status" role="status" aria-live="polite">Loading recorded example…</p></div>
             <div id="captcha-result" hidden><div class="captcha-prediction"><span class="results-kicker">Recorded prediction</span><strong id="captcha-prediction"></strong><span id="captcha-comparison"></span></div><div id="captcha-breakdown" class="captcha-breakdown"></div></div>

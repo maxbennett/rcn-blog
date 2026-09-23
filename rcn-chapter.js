@@ -4,7 +4,7 @@
  'use strict';
  const $=id=>document.getElementById(id),figure=$('rcn-scene-figure'),model=root.RCNSceneModel;
  if(!figure||!model)return;
- const graph=$('rcn-scene-graph'),slider=$('rcn-scene-scrub'),tooltip=$('rcn-scene-tooltip'),forwardButton=$('rcn-scene-forward'),backwardButton=$('rcn-scene-backward'),skipButton=$('rcn-scene-skip');
+ const graph=$('rcn-scene-graph'),slider=$('rcn-scene-scrub'),tooltip=$('rcn-scene-tooltip'),forwardButton=$('rcn-scene-forward');
  const dampingControl=$('rcn-scene-damping'),nextStepButton=$('rcn-scene-next-step'),previousStepButton=$('rcn-scene-previous-step');
  let damping=.5,trace=model.runFactorRounds({keep:damping,rounds:20});
  // Below 0.001 score change is settled to the displayed two-decimal precision.
@@ -181,10 +181,11 @@
   dampingControl.setAttribute('aria-valuetext',`${Math.round(damping*100)} percent previous message, ${Math.round((1-damping)*100)} percent new message`);
   slider.disabled=forwardProgress<1;slider.max=String(STEPS);slider.value=String(s.step);
   slider.style.setProperty('--rb-progress',s.step/STEPS*100+'%');slider.setAttribute('aria-valuetext',`Round ${s.step} of ${STEPS}: all factors update together`);
-  skipButton.hidden=forwardProgress===1;
-  forwardButton.textContent=running==='forward'?'Pause forward pass':forwardProgress===1?'Replay forward pass':forwardProgress>0?'Resume forward pass':'Run forward pass';
-  backwardButton.disabled=forwardProgress<1;
-  backwardButton.textContent=running==='backward'?'Pause backward pass':s.step===STEPS?'Replay backward pass':s.step>0?'Resume backward pass':'Run backward pass';
+  figure.querySelector('.rb-timeline').hidden=forwardProgress<1;
+  figure.querySelector('.rb-damping').hidden=forwardProgress<1;
+  forwardButton.textContent=forwardProgress<1
+   ?(running==='forward'?'Pause forward pass':forwardProgress>0?'Resume forward pass':'Run forward pass')
+   :(running==='backward'?'Pause backward pass':s.step===STEPS?'Replay backward pass':s.step>0?'Resume backward pass':'Run backward pass');
   figure.dataset.running=running||'';
   drawChart(s);
  }
@@ -317,7 +318,7 @@
   return groups.map(g=>(g.count>1?g.count+'\\cdot ':'')+dec(g.value)).join('+')||'0';
  };
  function show(target){
-  if(hovered===target||running==='forward')return;if(animation){stop();backwardButton.textContent='Resume backward pass';}hide();figure.classList?.add('has-inspector');graph.classList?.add('is-inspecting');hovered=target;target.setAttribute('aria-describedby','rcn-scene-tooltip');
+  if(hovered===target||running==='forward')return;if(animation){stop();forwardButton.textContent='Resume backward pass';}hide();figure.classList?.add('has-inspector');graph.classList?.add('is-inspecting');hovered=target;target.setAttribute('aria-describedby','rcn-scene-tooltip');
   const s=current,d=target.dataset;let content='',h=null,k=null,routeSource=null,routeTime=null,routeMessages=null,localReply=false,andOutput=false;
   if(d.rbMessage!==undefined||d.rbMessageChip!==undefined){
 
@@ -423,16 +424,15 @@
   if(!done)animation=root.requestAnimationFrame(tick);
  }
  forwardButton.addEventListener('click',()=>{
-  if(running==='forward'){stop();draw();return;}
-  stop();if(forwardProgress===1)forwardProgress=0;backwardPosition=0;
-  running='forward';animation=root.requestAnimationFrame(tick);draw();
- });
- skipButton.addEventListener('click',()=>{stop();forwardProgress=1;backwardPosition=0;draw();});
- backwardButton.addEventListener('click',()=>{
-  if(forwardProgress<1)return;
-  if(running==='backward'){stop();draw();return;}
-  stop();if(backwardPosition>=STEPS)backwardPosition=0;
-  running='backward';animation=root.requestAnimationFrame(tick);draw();
+  if(running){stop();draw();return;}
+  stop();
+  if(forwardProgress<1){
+   backwardPosition=0;running='forward';
+  }else{
+   if(backwardPosition>=STEPS)backwardPosition=0;
+   running='backward';
+  }
+  animation=root.requestAnimationFrame(tick);draw();
  });
  previousStepButton.addEventListener('click',()=>{
   if(forwardProgress<1||backwardPosition<1)return;

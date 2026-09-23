@@ -44,7 +44,6 @@
  }
  async function showExample(){
   const current=++revision,frame=data.frames[exampleIndex],expected=frame.expected;
-  $('captcha-example-count').textContent=`Example ${exampleIndex+1} / ${data.frames.length}`;
   $('captcha-status').textContent='Loading recorded example…';
   $('captcha-result').hidden=true;
   try{

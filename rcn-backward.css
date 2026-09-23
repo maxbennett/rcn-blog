@@ -187,3 +187,6 @@
 #rcn-scene-graph [data-rb-hyp].is-message-inactive { opacity:.22; }
 #rcn-scene-graph [data-rb-pool].is-message-source,
 #rcn-scene-graph [data-rb-hyp].is-message-source { opacity:1; }
+
+#rcn-scene-figure .rb-timeline[hidden],#rcn-scene-figure .rb-damping[hidden] { display:none; }
+#rcn-scene-forward { background:#edf4ee; font-weight:600; }
