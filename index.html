@@ -27,10 +27,10 @@
   <link rel="icon" href="assets/neocortex-column-circuit-v5.png" type="image/png">
   <link rel="preload" href="assets/fonts/cardo.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="preload" href="assets/fonts/stix-two-text.woff2" as="font" type="font/woff2" crossorigin>
-  <link rel="stylesheet" href="styles.css?v=7">
+  <link rel="stylesheet" href="styles.css?v=8">
   <link rel="stylesheet" href="rcn-phenomena.css?v=3">
   <script src="rcn-phenomena.js?v=3" defer></script>
-  <script src="article.js?v=3" defer></script>
+  <script src="article.js?v=4" defer></script>
   <link rel="stylesheet" href="intro-figure.css?v=16">
   <script src="intro-figure.js?v=16" defer></script>
   <link rel="stylesheet" href="assets/katex/katex.min.css">
@@ -89,19 +89,23 @@
     <div class="article-layout">
       <aside class="contents-rail">
         <nav aria-label="Article contents"><p class="rail-heading">Contents</p><ol>
-          <li><a href="#introduction">Introduction</a></li>
-          <li><a href="#factor-graphs">RCN: a model of the microcircuit</a><ol class="contents-subsections">
-            <li><a href="#learning-an-exemplar">2.1 Learning a new exemplar</a></li>
-            <li><a href="#explaining-a-new-image">2.2 Recognizing a new image</a></li>
-            <li><a href="#rcn-factor-graph">2.3 The RCN Factor Graph</a></li>
-            <li><a href="#explaining-away">2.4 The Importance of the Backward Pass</a></li>
-            <li><a href="#extending-rcn">2.5 Extending the RCN factor graph</a></li>
+          <li><a href="#introduction"><span class="contents-number">1 </span><span class="contents-title">Introduction</span></a></li>
+          <li><a href="#factor-graphs"><span class="contents-number">2 </span><span class="contents-title">RCN: A probabilistic graphical model for visual processing in the neocortical microcircuit</span></a><ol class="contents-subsections">
+            <li><a href="#learning-an-exemplar"><span class="contents-number">2.1 </span><span class="contents-title">How RCN learns a new exemplar</span></a></li>
+            <li><a href="#explaining-a-new-image"><span class="contents-number">2.2 </span><span class="contents-title">How RCN recognizes a new image of a learned digit</span></a></li>
+            <li><a href="#rcn-factor-graph"><span class="contents-number">2.3 </span><span class="contents-title">The RCN Factor Graph</span></a></li>
+            <li><a href="#explaining-away"><span class="contents-number">2.4 </span><span class="contents-title">The Backward Pass</span></a></li>
+            <li><a href="#extending-rcn"><span class="contents-number">2.5 </span><span class="contents-title">Extending the RCN factor graph</span></a></li>
           </ol></li>
-          <li><a href="#results">Results</a><ol class="contents-subsections"><li><a href="#captcha-playground">3.1 Try a small digit CAPTCHA</a></li><li><a href="#visual-phenomena">3.2 Explaining Visual Phenomena</a></li></ol></li>
-          <li><a href="#cortex">Back to Biology</a></li>
-          <li><a href="#open-questions">Future directions</a></li>
-          <li><a href="#references">References</a></li>
-          <li><a href="#appendix">Appendix</a><ol class="contents-subsections"><li><a href="#generative-model">A.1 Primer on graphical models</a></li></ol></li>
+          <li><a href="#results"><span class="contents-number">3 </span><span class="contents-title">Results</span></a><ol class="contents-subsections">
+            <li><a href="#visual-phenomena"><span class="contents-number">3.1 </span><span class="contents-title">Explaining Perceptual Phenomena in Human Vision</span></a></li>
+          </ol></li>
+          <li><a href="#cortex"><span class="contents-number">4 </span><span class="contents-title">Mapping to Biology</span></a></li>
+          <li><a href="#open-questions"><span class="contents-number">5 </span><span class="contents-title">Future directions</span></a></li>
+          <li><a href="#references"><span class="contents-number"></span><span class="contents-title">References</span></a></li>
+          <li><a href="#appendix"><span class="contents-number"></span><span class="contents-title">Appendix</span></a><ol class="contents-subsections">
+            <li><a href="#generative-model"><span class="contents-number">A.1 </span><span class="contents-title">Primer on Probabilistic Graphical Models</span></a></li>
+          </ol></li>
         </ol></nav>
       </aside>
       <article>

@@ -160,3 +160,12 @@ article > .references > h2::before, article > #appendix > h2::before { content:n
 #appendix { counter-reset:appendix-subsection; }
 #appendix > section > h3 { counter-increment:appendix-subsection; display:flex; gap:.75rem; align-items:baseline; font:600 1.4rem/1.35 var(--display); margin:0 0 1.7rem; }
 #appendix > section > h3::before { content:"A." counter(appendix-subsection); flex:none; font:400 .95rem/1 var(--mono); color:#969d9a; }
+
+/* Keep outline labels aligned with the article's visible section numbers. */
+.contents-rail a { display:grid; grid-template-columns:max-content minmax(0,1fr); gap:.45rem; }
+.contents-number { min-width:1.1em; font-variant-numeric:tabular-nums; color:#8a9690; }
+.contents-subsections .contents-number { min-width:1.8em; }
+.contents-rail a[aria-current] .contents-number,.contents-rail a:hover .contents-number { color:inherit; }
+@media(min-width:1141px) {
+ .contents-rail { max-height:calc(100dvh - 4rem); overflow-y:auto; scrollbar-width:thin; }
+}

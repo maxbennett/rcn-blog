@@ -1,6 +1,36 @@
-// Follow the article's section and subsection anchors in the contents rail.
+// Derive the outline from article headings so editing a title cannot leave stale navigation.
 (function () {
   'use strict';
+  const outline=document.querySelector('.contents-rail nav > ol');
+  function item(heading,target,number){
+    const li=document.createElement('li'),link=document.createElement('a');
+    const label=document.createElement('span'),title=document.createElement('span');
+    link.href='#'+target.id;label.className='contents-number';title.className='contents-title';
+    label.textContent=number?number+' ':'';title.textContent=heading.textContent.trim();
+    link.append(label,title);li.append(link);return li;
+  }
+  if(outline){
+    let number=0;
+    const items=[];
+    document.querySelectorAll('article > section').forEach(section=>{
+      const heading=section.querySelector(':scope > h2');
+      if(!heading||!section.id)return;
+      const appendix=section.id==='appendix',unnumbered=appendix||section.classList.contains('references');
+      const main=item(heading,section,unnumbered?'':String(++number));
+      const headings=section.querySelectorAll(appendix?':scope > section > h3':':scope > h3');
+      if(headings.length){
+        const sublist=document.createElement('ol');sublist.className='contents-subsections';
+        headings.forEach((subheading,index)=>{
+          const target=appendix&&subheading.parentElement.id?subheading.parentElement:subheading;
+          if(!target.id)target.id=section.id+'-subsection-'+(index+1);
+          sublist.append(item(subheading,target,(appendix?'A':number)+'.'+(index+1)));
+        });
+        main.append(sublist);
+      }
+      items.push(main);
+    });
+    outline.replaceChildren(...items);
+  }
   const entries=[...document.querySelectorAll('.contents-rail a')].map(link=>({link,target:document.getElementById(link.hash.slice(1))})).filter(entry=>entry.target);
   let scheduled=false;
   function update(){
