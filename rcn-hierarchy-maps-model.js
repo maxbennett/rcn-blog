@@ -47,22 +47,30 @@
    return {expected:{f:p.f,r:rr,c:cc},observed:options[0]||null};
   });
  }
+ // Select representative training locations by local response density, with
+ // spatial suppression only. There is no one-landmark-per-feature limit.
+ // All response pixels remain in the feature maps and in each pool's candidates.
+ function locations(points,minSeparation=8){
+  const ranked=points.map(p=>({p,density:points.filter(q=>Math.hypot(p[0]-q[0],p[1]-q[1])<=3).length}));
+  ranked.sort((a,b)=>b.density-a.density||a.p[0]-b.p[0]||a.p[1]-b.p[1]);
+  const selected=[];
+  for(const {p} of ranked)if(selected.every(q=>Math.hypot(p[0]-q[0],p[1]-q[1])>=minSeparation))selected.push(p);
+  return selected;
+ }
  function create(trainingEdges,testEdges){
   const training=maps(trainingEdges),input=maps(testEdges);
-  // One illustrative landmark per feature, selected on the TRAINING image only.
-  // Select a response close to the matching sector of its contour. These are not
-  // the edge landmarks from the two-level classifier and carry no class score.
+  // Each spatial occurrence in the TRAINING image can become a landmark.
+  // Several landmarks may reuse the same feature map; test detections never
+  // determine the stored locations. These illustrative landmarks carry no score.
   const pools=features.flatMap(feature=>{
-   const a=feature.f*Math.PI/8,target=[103+31*Math.sin(a),104+29*Math.cos(a)];
    const points=training.responses[feature.id].points;
-   // A training exemplar need not contain every feature in the shared bank.
-   if(!points.length)return [];
-   const [r,c]=points.reduce((best,p)=>Math.hypot(p[0]-target[0],p[1]-target[1])<Math.hypot(best[0]-target[0],best[1]-target[1])?p:best);
-   const candidates=input.responses[feature.id].points.filter(([rr,cc])=>Math.abs(rr-r)<=poolRadius&&Math.abs(cc-c)<=poolRadius);
-   candidates.sort((a,b)=>Math.hypot(a[0]-r,a[1]-c)-Math.hypot(b[0]-r,b[1]-c));
-   return [{feature:feature.id,r,c,candidates}];
+   return locations(points).map(([r,c])=>{
+    const candidates=input.responses[feature.id].points.filter(([rr,cc])=>Math.abs(rr-r)<=poolRadius&&Math.abs(cc-c)<=poolRadius);
+    candidates.sort((a,b)=>Math.hypot(a[0]-r,a[1]-c)-Math.hypot(b[0]-r,b[1]-c));
+    return {feature:feature.id,r,c,candidates};
+   });
   });
   return {training,input,pools};
  }
- root.RCNHierarchyMaps={size,area,features,poolRadius,maps,indexEdges,witnesses,create};
+ root.RCNHierarchyMaps={size,area,features,poolRadius,maps,indexEdges,witnesses,locations,create};
 })(globalThis);

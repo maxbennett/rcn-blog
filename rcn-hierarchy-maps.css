@@ -30,7 +30,7 @@
 #rfp-canvas [data-rfp-pool],#rfp-canvas [data-rfp-response],#rfp-canvas [data-rfp-exemplar] { cursor:pointer; }
 #rfp-canvas [data-rfp-pool]:focus-visible circle,#rfp-canvas [data-rfp-pool]:hover circle { stroke:#032f56; stroke-width:2.5; }
 #rfp-canvas [role="button"]:focus-visible { outline:none; }
-#rfp-canvas [data-rfp-response]:focus-visible circle { stroke:#032f56; stroke-width:2; }
+#rfp-canvas [data-rfp-response]:focus-visible,#rfp-canvas [data-rfp-response]:hover { stroke:#032f56; stroke-width:2; }
 .rfp-status { font:.8rem/1.45 var(--ui); min-height:3em; color:#526b5d; margin:.65rem 0; }
 .rfp-status strong { color:#376e69; font-weight:600; margin-right:.45rem; }
 #rcn-forward-graph-prime figcaption { font:.9375rem/1.55 var(--body); padding-top:.8rem; border-top:1px solid var(--rule); }

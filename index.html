@@ -61,10 +61,10 @@
   <script src="rcn-forward.js?v=9" defer></script>
   <link rel="stylesheet" href="rcn-forward-graph.css?v=31">
   <script src="rcn-forward-graph.js?v=33" defer></script>
-  <link rel="stylesheet" href="rcn-hierarchy-maps.css?v=2">
+  <link rel="stylesheet" href="rcn-hierarchy-maps.css?v=3">
   <script src="rcn-hierarchy-training.js?v=1" defer></script>
-  <script src="rcn-hierarchy-maps-model.js?v=2" defer></script>
-  <script src="rcn-hierarchy-maps.js?v=2" defer></script>
+  <script src="rcn-hierarchy-maps-model.js?v=3" defer></script>
+  <script src="rcn-hierarchy-maps.js?v=3" defer></script>
   <link rel="stylesheet" href="rcn-results.css?v=4">
   <script src="rcn-captcha-examples.js?v=2" defer></script>
   <script src="rcn-results.js?v=7" defer></script>
@@ -392,12 +392,12 @@
               <svg id="rfp-canvas" viewBox="0 0 900 655" role="img" aria-label="Edge maps feed higher-level bend maps, landmark pools, and three exemplars"></svg>
               <div class="rfp-control rfp-run-control"><button id="rfp-run" type="button">Run Forward Pass ↑</button><button id="rfp-reset" class="rfp-secondary" type="button" hidden>Reset</button></div>
               <div class="rfp-control rfp-exemplar-control" role="group" aria-label="Browse learned exemplars"><span id="rfp-exemplar-label">Digit 0</span><button id="rfp-exemplar-next" type="button">Next exemplar ↑</button><span id="rfp-exemplar-count">1 / 3 exemplars</span></div>
-              <div class="rfp-control rfp-feature-control" role="group" aria-label="Browse higher-level feature maps"><span id="rfp-feature-name">Bend 7 / 8</span><button id="rfp-next-feature" type="button">Next feature map ↑</button></div>
-              <div class="rfp-control rfp-channel-control" role="group" aria-label="Browse the sixteen edge filters"><span id="rfp-orientation">270° filter</span><button id="rfp-channel-next" type="button">Next filter ↑</button><span id="rfp-channel-count">13 / 16 filters</span></div>
+              <div class="rfp-control rfp-feature-control" role="group" aria-label="Browse higher-level feature maps"><span id="rfp-feature-name">Bend 2 / 8</span><button id="rfp-next-feature" type="button">Next feature map ↑</button></div>
+              <div class="rfp-control rfp-channel-control" role="group" aria-label="Browse the sixteen edge filters"><span id="rfp-orientation">45° filter</span><button id="rfp-channel-next" type="button">Next filter ↑</button><span id="rfp-channel-count">3 / 16 filters</span></div>
               <label class="rfp-links"><input id="rfp-links" type="checkbox" checked>Show connections</label>
             </div></div>
             <div class="rfp-status" aria-live="polite"><strong id="rfp-stage-title"></strong><span id="rfp-story"></span></div>
-            <figcaption id="rfp-caption"><strong>Fig. 6′: A higher-level feature map between edges and landmarks.</strong> The same input and three exemplars as Fig. 6, with eight illustrative bend features between the edge maps and landmark pools. Each bend combines three oriented edge parts; each exemplar has its own landmarks that pool nearby bend responses. Browse the filters, feature maps, and exemplars, or run the forward pass to follow the evidence upward. Bend responses are computed from exported edge data, allowing ±2 pixels and an adjacent orientation channel per part. The bend templates and their training-image landmarks are illustrative. Lateral links are schematic; the animation shows bottom-up support, not a new classifier score.</figcaption>
+            <figcaption id="rfp-caption"><strong>Fig. 6′: A higher-level feature map between edges and landmarks.</strong> The same input and three exemplars as Fig. 6, with eight illustrative bend features between the edge maps and landmark pools. Each bend combines three oriented edge parts and can respond at many image positions. Blue dots show all positive positions; nearby dots may belong to the same contour region. Multiple landmarks can reuse one bend type, each pooling a different spatial window. “Next feature map” changes the detections and highlights every landmark that uses that type. Faint dashed cones show their search windows; solid connections mark supported positions. Browse exemplars or run the forward pass to follow the evidence upward. Bend responses are computed from exported edge data, allowing ±2 pixels and an adjacent orientation channel per part. The bend templates and their training-image landmarks are illustrative. Lateral links are schematic; the animation shows bottom-up support, not a new classifier score.</figcaption>
             <noscript><p>The added level sits between edge feature maps and landmark pools. Several edge parts in a compatible arrangement activate a higher-level bend feature; pools search the resulting bend map.</p></noscript>
           </figure>
           <p>This is already enough to recognize our new zero. But a high forward score is only a promising explanation: the more ambiguous scene in section 2.4 below will let us see why backward inference and loopy belief propagation matter.</p>
