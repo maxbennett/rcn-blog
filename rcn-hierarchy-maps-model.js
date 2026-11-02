@@ -52,14 +52,15 @@
   // One illustrative landmark per feature, selected on the TRAINING image only.
   // Select a response close to the matching sector of its contour. These are not
   // the edge landmarks from the two-level classifier and carry no class score.
-  const pools=features.map(feature=>{
+  const pools=features.flatMap(feature=>{
    const a=feature.f*Math.PI/8,target=[103+31*Math.sin(a),104+29*Math.cos(a)];
    const points=training.responses[feature.id].points;
-   if(!points.length)throw new Error(`No training response for ${feature.name}`);
+   // A training exemplar need not contain every feature in the shared bank.
+   if(!points.length)return [];
    const [r,c]=points.reduce((best,p)=>Math.hypot(p[0]-target[0],p[1]-target[1])<Math.hypot(best[0]-target[0],best[1]-target[1])?p:best);
    const candidates=input.responses[feature.id].points.filter(([rr,cc])=>Math.abs(rr-r)<=poolRadius&&Math.abs(cc-c)<=poolRadius);
    candidates.sort((a,b)=>Math.hypot(a[0]-r,a[1]-c)-Math.hypot(b[0]-r,b[1]-c));
-   return {feature:feature.id,r,c,candidates};
+   return [{feature:feature.id,r,c,candidates}];
   });
   return {training,input,pools};
  }
