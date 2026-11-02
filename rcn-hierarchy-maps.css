@@ -13,7 +13,6 @@
 .rfp-run-control { top:14.8%; }
 .rfp-exemplar-control { top:29.7%; }
 .rfp-feature-control { top:49.7%; }
-.rfp-channel-control { top:69.7%; }
 .rfp-control button { min-height:36px; padding:6px 7px; border:1px solid #8caf9f; border-radius:6px; background:#edf5ef; color:#2e6257; font:600 12px var(--ui); cursor:pointer; box-shadow:0 2px 0 #c5d8cc; transition:background .15s,transform .15s; white-space:nowrap; }
 .rfp-control button:hover { background:#dceee2; border-color:#548c87; transform:translateY(-1px); }
 .rfp-control button:active { transform:translateY(1px); box-shadow:none; }
@@ -40,11 +39,19 @@
 #rcn-forward-graph-prime figcaption strong { color:var(--navy); }
 .rfp-flow { stroke-dasharray:4 3; animation:rfp-flow .45s linear 2; }
 .rfp-sheet-rise { animation:rfp-sheet-rise 400ms cubic-bezier(.25,.6,.3,1) both; }
+.rfp-map-change { animation:rfp-map-change .22s ease both; }
+.rfp-edge-gather { animation:rfp-edge-gather .25s ease both; }
+@keyframes rfp-map-change { from { opacity:.45; } }
+@keyframes rfp-edge-gather { from { opacity:.6; } }
 .rfp-combine-in { animation:rfp-combine-in 280ms ease both; }
 @keyframes rfp-flow { to { stroke-dashoffset:-21; } }
 @keyframes rfp-sheet-rise { from { transform:translateY(10px); opacity:.2; } }
-@keyframes rfp-combine-in { from { transform:translateY(10px); opacity:.4; } }
+@keyframes rfp-combine-in { from { opacity:.4; } }
 @media(min-width:1141px) { #rcn-forward-graph-prime { width:min(900px,calc(50vw + 297px)); left:0; transform:none; } }
 @media(max-width:950px) { .rfp-control button { font-size:10px; min-height:29px; padding:4px; }.rfp-control { gap:3px; }.rfp-control span,.rfp-links { font-size:9px; }.rfp-control .rfp-secondary { font-size:9px; min-height:21px; } }
-@media(prefers-reduced-motion:reduce) { .rfp-flow,.rfp-sheet-rise,.rfp-combine-in { animation:none; }.rfp-control button,.rfp-exemplar-card { transition:none; } }
+@media(prefers-reduced-motion:reduce) { .rfp-flow,.rfp-sheet-rise,.rfp-map-change { animation:rfp-map-change .22s ease both; }
+.rfp-edge-gather { animation:rfp-edge-gather .25s ease both; }
+@keyframes rfp-map-change { from { opacity:.45; } }
+@keyframes rfp-edge-gather { from { opacity:.6; } }
+.rfp-combine-in { animation:none; }.rfp-control button,.rfp-exemplar-card { transition:none; } }
 @media print { #rcn-forward-graph-prime { width:100%; left:0; transform:none; }.rfp-control,.rfp-links { display:none; }.rfp-stage { min-width:0; }.rfp-scroll { overflow:visible; } }

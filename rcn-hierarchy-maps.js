@@ -11,20 +11,20 @@
  });
  const frameNow=()=>traces[focus][stage];
  const input=models[0].input,blue='#0f67a2',teal='#548c87',navy='#032f56',gold='#987143',miss='#b76356';
- const inks=[blue,teal,gold],heights={edge:80,part:205,pool:330};
+ const inks=[blue,teal,gold],heights={part:205,pool:330};
  const reducedMotion=root.matchMedia?.('(prefers-reduced-motion: reduce)').matches;
  const timing={edges:250,bends:300,evidence:300,lateral:130,settled:200,readout:650,exemplar:250,score:0};
- let focus=0,feature=1,channel=2,edgeMode='parts',stage=0,timer=null,motionFrame=0,links=true,inspectedPool=null,responseInspected=false;
+ let focus=0,feature=1,stage=0,timer=null,motionFrame=0,links=true,inspectedPool=null;
  let response=models[0].pools.find(p=>p.feature===feature&&p.candidates.length)?.candidates[0]||input.responses[feature].points[0];
  const proj=(r,c,z=0)=>[450+2.15*(c-100)+.85*(r-100),552+.54*(r-100)-.28*(c-100)-z];
  const xy=p=>p.map(v=>v.toFixed(2)).join(' ');
  const text=(x,y,t,cls='',anchor='start')=>`<text x="${x}" y="${y}" class="${cls}" text-anchor="${anchor}">${t}</text>`;
  function line(a,b,ink,width=1,opacity=1,pulse=false){
-  return `<path d="M${xy(a)}L${xy(b)}" fill="none" stroke="${ink}" stroke-width="${width}" opacity="${opacity}" pointer-events="none" ${pulse?'class="rfp-flow" marker-end="url(#rfp-arrow)"':''}/>`;
+  return `<path d="M${xy(a)}L${xy(b)}" fill="none" stroke="${ink}" stroke-width="${width}" opacity="${opacity}" pointer-events="none" ${pulse?`class="rfp-flow" marker-end="url(#rfp-arrow-${Math.max(0,inks.indexOf(ink))})"` : ''}/>`;
  }
- function signal(a,b,delay=0){
+ function signal(a,b,delay=0,ink=blue){
   if(timer===null||reducedMotion)return '';
-  return `<circle data-rfp-motion="${[...a,...b].join(':')}" data-rfp-delay="${delay}" cx="${a[0]}" cy="${a[1]}" r="2.7" fill="${blue}" stroke="white" stroke-width=".7" pointer-events="none"/>`;
+  return `<circle data-rfp-motion="${[...a,...b].join(':')}" data-rfp-delay="${delay}" cx="${a[0]}" cy="${a[1]}" r="2.7" fill="${ink}" stroke="white" stroke-width=".7" pointer-events="none"/>`;
  }
  function fitLine(a,b,oldA,oldB,ink,width=1,opacity=1,pulse=false){
   const base=line(a,b,ink,width,opacity,pulse);
@@ -39,15 +39,15 @@
   return line(proj(r-len*Math.sin(t),c-len*Math.cos(t),z),proj(r+len*Math.sin(t),c+len*Math.cos(t),z),ink,width);
  }
  const glyph=(id,r,c,z,ink,width=1.4)=>M.features[id].parts.map(p=>edge(p.f,r+p.dr,c+p.dc,z,ink,width,2)).join('');
- function sample(points,gap=12,preferred=null){
-  const chosen=[],sorted=preferred?[...points].sort((a,b)=>Math.hypot(a[0]-preferred[0],a[1]-preferred[1])-Math.hypot(b[0]-preferred[0],b[1]-preferred[1])):points;
-  for(const p of sorted){const q=proj(...p);if(chosen.every(a=>{const b=proj(...a);return Math.hypot(q[0]-b[0],q[1]-b[1])>=gap;}))chosen.push(p);}
-  return chosen;
+ // All three component maps use the same front-facing crop and scale.
+ // Retain every observed edge, including witnesses that thinning could hide.
+ const tile={x:236,y:420,width:144,height:108,gap:12};
+ const edgePoint=(slot,r,c)=>[tile.x+slot*(tile.width+tile.gap)+tile.width/2+(c-100)*.85,tile.y+63+(r-100)*.85];
+ function tileEdge(slot,f,r,c,ink,width=1.1){
+  const angle=f*Math.PI/8+Math.PI/2,len=3;
+  return line(edgePoint(slot,r-len*Math.sin(angle),c-len*Math.cos(angle)),edgePoint(slot,r+len*Math.sin(angle),c+len*Math.cos(angle)),ink,width);
  }
- const edgeMaps=Array.from({length:16},(_,f)=>{
-  const points=new Set([...input.raw[f],...input.raw[(f+15)%16],...input.raw[(f+1)%16]]);
-  return sample([...points].map(k=>[Math.floor(k/200),k%200]),6);
- });
+ const edgeMaps=Array.from({length:16},(_,f)=>[f,(f+15)%16,(f+1)%16].flatMap(ch=>[...input.raw[ch]].map(k=>[ch,Math.floor(k/200),k%200])));
  function animateSignals(){
   if(motionFrame)root.cancelAnimationFrame(motionFrame);
   motionFrame=0;if(!root.requestAnimationFrame||timer===null||reducedMotion)return;
@@ -80,19 +80,19 @@
   const pool=models[focus].pools[inspectedPool]||models[focus].pools.find(p=>p.feature===feature&&p.candidates.length);
   response=pool?.candidates[0]||input.responses[feature].points[0];
  }
- function chooseFeature(id,poolIndex=null){stop();if(poolIndex===null)stage=0;feature=id;inspectedPool=poolIndex;responseInspected=poolIndex!==null;channel=M.features[id].f;edgeMode='parts';chooseResponse();render(poolIndex===null?'feature':'');}
- function chooseExemplar(id){stop();stage=0;focus=id;inspectedPool=null;responseInspected=false;chooseResponse();render('exemplar');}
+ function chooseFeature(id,poolIndex=null){stop();if(poolIndex===null)stage=0;feature=id;inspectedPool=poolIndex;chooseResponse();render(poolIndex===null?'feature':'');}
+ function chooseExemplar(id){stop();stage=0;focus=id;inspectedPool=null;chooseResponse();render('exemplar');}
  function render(swap=''){
   const model=models[focus],exemplar=exemplars[focus],F=M.features[feature],pool=model.pools[inspectedPool];
   const frame=frameNow(),phase=frame.kind,moving=phase==='lateral',revealed=['settled','readout','exemplar','score'].includes(phase),done=phase==='score';
   const poolPoint=i=>proj(...frame.positions[i],heights.pool),storedPoint=i=>proj(model.pools[i].r,model.pools[i].c,heights.pool);
   const updating=new Set(moving?frame.edges.flatMap(([a,b])=>[a,b]):[]);
   const featurePools=model.pools.filter(p=>p.feature===feature),detections=input.responses[feature].points;
-  const channels=edgeMode==='parts'?[F.f,(F.f+2)%16,(F.f+14)%16]:[channel,(channel+1)%16,(channel+2)%16];
-  const partIds=[feature,(feature+1)%8,(feature+2)%8],combinedEdges=stage>=1,combinedParts=stage>=2;
+  const channels=F.parts.map(p=>p.f),witnesses=M.witnesses(input,F,...response);
+  const partIds=[feature,(feature+1)%8,(feature+2)%8],combinedParts=stage>=2;
   const selectedPoint=proj(...response,heights.part),supported=revealed?frame.evidence.filter(v=>v>0).length:model.pools.filter(p=>p.candidates.length).length;
-  Object.assign(figure.dataset,{stage:String(stage),phase,feature:String(feature),exemplar:String(exemplar.index),channel:String(channel),matchingPools:String(featurePools.length),detections:String(detections.length),inspectedPool:inspectedPool===null?'':String(inspectedPool)});
-  let s=`<defs><clipPath id="rfp-image-clip"><path d="M${[proj(28,28),proj(28,172),proj(172,172),proj(172,28)].map(xy).join('L')}Z"/></clipPath><marker id="rfp-arrow" markerWidth="5" markerHeight="5" refX="4" refY="2.5" orient="auto"><path d="M0 0L4 2.5L0 5" fill="none" stroke="${blue}" stroke-width="1"/></marker></defs>`;
+  Object.assign(figure.dataset,{stage:String(stage),phase,feature:String(feature),exemplar:String(exemplar.index),edgeChannels:channels.join(':'),matchingPools:String(featurePools.length),detections:String(detections.length),inspectedPool:inspectedPool===null?'':String(inspectedPool)});
+  let s=`<defs><clipPath id="rfp-image-clip"><path d="M${[proj(28,28),proj(28,172),proj(172,172),proj(172,28)].map(xy).join('L')}Z"/></clipPath>${inks.map((ink,i)=>`<marker id="rfp-arrow-${i}" markerWidth="5" markerHeight="5" refX="4" refY="2.5" orient="auto"><path d="M0 0L4 2.5L0 5" fill="none" stroke="${ink}" stroke-width="1"/></marker>`).join('')}</defs>`;
   s+=plane(0,'#f7fafb','#c4d1d8');
   s+=`<g clip-path="url(#rfp-image-clip)"><image href="${test.image}" width="200" height="200" transform="matrix(2.15 -.28 .85 .54 150 526)"/></g>`;
   // The same spatial response positions are marked on the original image.
@@ -100,30 +100,18 @@
   s+='<g pointer-events="none">';
   for(const [r,c] of detections){const p=proj(r,c);s+=`<circle data-rfp-image-detection="${feature}:${r}:${c}" cx="${p[0]}" cy="${p[1]}" r="1.5" fill="#23a5d5"/>`;}
   s+='</g>';
-  // Browsing preserves the individual channels; the pass overlays them while
-  // retaining each feature identity, as in the original Fig. 6.
-  if(combinedEdges){
-   s+=`<g class="${stage===1?'rfp-combine-in':''}" data-rfp-combined-edges="true">`+plane(heights.edge,'#eef5f8',blue,.8);
-   edgeMaps.forEach((points,f)=>{s+=`<g data-rfp-edge-map="${f}" opacity=".32">`;points.forEach(([r,c])=>{s+=edge(f,r,c,heights.edge,navy,1,1.8);});s+='</g>';});
-   s+='</g>';
-  }else for(let slot=2;slot>=0;slot--){
-   const f=channels[slot],z=heights.edge-slot*10;
-   s+=`<g data-rfp-edge-map="${f}" opacity="${slot===0?1:.2}" class="${swap==='filter'||swap==='feature'?'rfp-sheet-rise':''}">`+plane(z,'#eef5f8',blue,.8);
-   for(const [r,c] of edgeMaps[f])s+=edge(f,r,c,z,navy,slot===0?1.5:1);
-   s+='</g>';
-  }
-  // On composition, several genuine edge witnesses travel to their bend maps.
-  const compose=stage===2?M.features.map(f=>({feature:f,points:M.locations(input.responses[f.id].points)})):[{feature:F,points:responseInspected?[response]:M.locations(detections)}];
-  if(links)for(const item of compose)for(const [r,c] of item.points){
-   const to=proj(r,c,heights.part);
-   M.witnesses(input,item.feature,r,c).forEach((w,i)=>{
-    const slot=channels.indexOf(w.expected.f);if(!combinedEdges&&slot<0)return;
-    const from=proj(w.observed.r,w.observed.c,heights.edge-(combinedEdges?0:slot*10));
-    s+=line(from,to,stage===2?blue:inks[i],stage===2?1.1:1.3,stage===2?.45:.65,stage===2);
-    if(item.feature.id===feature)s+=`<circle data-rfp-witness="${w.observed.f}:${w.observed.r}:${w.observed.c}" cx="${from[0]}" cy="${from[1]}" r="2.5" fill="white" stroke="${inks[i]}" stroke-width="1.1"/>`;
-    if(stage===2)s+=signal(from,to,i*22);
-   });
-  }
+  // The selected bend drives three equally emphasized maps. Their colors and
+  // A/B/C labels follow the template's components, not a separate filter state.
+  channels.forEach((f,slot)=>{
+   const x=tile.x+slot*(tile.width+tile.gap),ink=inks[slot],label='ABC'[slot];
+   s+=`<g data-rfp-edge-map="${f}" data-rfp-component="${label}" class="${swap==='feature'?'rfp-map-change':stage===1?'rfp-edge-gather':''}">`;
+   s+=`<rect x="${x}" y="${tile.y}" width="${tile.width}" height="${tile.height}" rx="5" fill="#fcfdfb" stroke="${ink}" stroke-opacity=".6"/>`;
+   s+=`<rect x="${x+7}" y="${tile.y+7}" width="16" height="16" rx="3" fill="${ink}"/><text x="${x+15}" y="${tile.y+18}" text-anchor="middle" style="fill:white;font-size:10px">${label}</text>`;
+   s+=`<text x="${x+30}" y="${tile.y+19}" style="fill:${ink};font-size:11px;paint-order:stroke;stroke:#fcfdfb;stroke-width:3px;stroke-linejoin:round">${f*22.5}° filter</text>`;
+   s+='<g opacity=".65">';
+   for(const [ch,r,c] of edgeMaps[f])s+=`<g data-rfp-edge-detection="${slot}:${ch}:${r}:${c}">`+tileEdge(slot,ch,r,c,ink)+'</g>';
+   s+='</g></g>';
+  });
   const paintMap=(id,z,active)=>{
    let out=`<g data-rfp-feature-map="${id}">`;
    if(active)for(const p of pool?[pool]:featurePools){
@@ -146,9 +134,21 @@
    M.features.forEach(f=>{s+=paintMap(f.id,heights.part,f.id===feature);});s+='</g>';
   }else for(let slot=2;slot>=0;slot--){
    const z=heights.part-slot*10;
-   s+=`<g opacity="${slot===0?1:.23}" class="${swap==='feature'?'rfp-sheet-rise':''}">`+plane(z,'#f2f6ec',teal,.8)+paintMap(partIds[slot],z,slot===0)+'</g>';
+   s+=`<g opacity="${slot===0?1:.23}" class="${swap==='feature'?'rfp-map-change':''}">`+plane(z,'#f2f6ec',teal,.8)+paintMap(partIds[slot],z,slot===0)+'</g>';
   }
-  if(responseInspected)s+=`<circle pointer-events="none" cx="${selectedPoint[0]}" cy="${selectedPoint[1]}" r="5" fill="none" stroke="${blue}" stroke-width="1.5"/>`;
+  // Show one complete composition at a time. Draw it after the map surfaces,
+  // so neither end disappears behind a sheet. Every wire meets an actual edge.
+  if(links)witnesses.forEach((w,slot)=>{
+   const from=edgePoint(slot,w.observed.r,w.observed.c),ink=inks[slot];
+   s+=`<g data-rfp-composition="${slot}:${w.expected.f}:${w.observed.f}:${w.observed.r}:${w.observed.c}:${response.join(':')}" pointer-events="none">`;
+   s+=line(from,selectedPoint,'white',3,.85)+line(from,selectedPoint,ink,1.25,.8,stage===2);
+   s+=`<circle data-rfp-witness="${w.observed.f}:${w.observed.r}:${w.observed.c}" cx="${from[0]}" cy="${from[1]}" r="4.2" fill="white" stroke="${ink}" stroke-width="1.1"/>`;
+   s+=tileEdge(slot,w.observed.f,w.observed.r,w.observed.c,ink,2);
+   if(stage===2)s+=signal(from,selectedPoint,slot*22,ink);
+   s+='</g>';
+  });
+  s+=`<circle data-rfp-selected-response="${response.join(':')}" pointer-events="none" cx="${selectedPoint[0]}" cy="${selectedPoint[1]}" r="5.5" fill="none" stroke="${blue}" stroke-width="1.5"/>`;
+  if(!moving&&!revealed)s+=text(selectedPoint[0]+9,selectedPoint[1]-8,'A + B + C','rfp-small');
   // Each exemplar has its OWN training-derived pool locations, over the shared
   // bank of bend maps. No upper pool reads directly from the edge level.
   if(links)model.pools.forEach((p,i)=>{
@@ -216,7 +216,8 @@
   s+=text(28,35,'Learned exemplars','rfp-label')+text(28,53,'One variable per exemplar','rfp-sub');
   s+=guide(174,'Landmark pools',`${featurePools.length} use ${F.name} · digit ${exemplar.label}`,heights.pool);
   s+=guide(304,'Higher-level feature maps',combinedParts?'8 bend types · combined view':`${F.name} · 8 bend maps`,heights.part);
-  s+=guide(434,'Edge feature maps',combinedEdges?'16 directions · combined view':'16 orientation filters',heights.edge);
+  s+=text(28,434,'Edge feature maps','rfp-label')+text(28,451,`3 inputs to ${F.name}`,'rfp-sub');
+  s+=text(28,479,'Selected together','rfp-title')+text(28,497,'by the bend above.','rfp-sub')+text(28,519,'Includes adjacent filters.','rfp-sub');
   s+=text(450,640,`Observed image · blue marks ${F.name} responses`,'rfp-title','middle');
   // A smaller inset leaves the compact three-exemplar graph as the main view.
   s+=`<rect x="710" y="278" width="176" height="260" rx="6" fill="#fcfdfb" stroke="#c6d9cc"/>`;
@@ -246,30 +247,30 @@
    positions.forEach(([r,c],i)=>{s+=`<circle cx="${c}" cy="${r}" r="2.4" fill="${frame.evidence[i]>0?teal:miss}" stroke="white" stroke-width=".6"/>`;});
    s+='</svg>'+text(723,526,'Faint outlines: stored positions','rfp-sub');
   }else{
-  s+=text(723,300,'ONE TYPE, MANY LOCATIONS','rfp-mini')+text(723,322,`${F.name} = three edge parts`,'rfp-title');
+  s+=text(723,300,'THREE MAPS → ONE BEND','rfp-mini')+text(723,322,`${F.name} = three edge parts`,'rfp-title');
   F.parts.forEach((p,i)=>{
    const t=p.f*Math.PI/8+Math.PI/2,x=796+p.dc*1.5,y=356+p.dr*1.5;
    s+=line([x-5*Math.cos(t),y-5*Math.sin(t)],[x+5*Math.cos(t),y+5*Math.sin(t)],inks[i],2.8);
+   s+=`<text x="${x+8}" y="${y-5}" style="fill:${inks[i]};font-size:9px">${'ABC'[i]}</text>`;
   });
   s+=text(723,385,`${detections.length} response positions in input`,'rfp-sub');
   s+=text(723,402,`${featurePools.length} landmark${featurePools.length===1?' uses':'s use'} this map in digit ${exemplar.label}`,'rfp-sub');
   s+=`<svg x="748" y="411" width="100" height="100" viewBox="40 40 120 120" aria-label="Locations of the selected higher-level feature on the input image"><image href="${test.image}" width="200" height="200"/>`;
   for(const [r,c] of detections)s+=`<circle cx="${c}" cy="${r}" r="1.5" fill="#23a5d5"/>`;
   s+='</svg>';
-  s+=text(723,526,pool?`Landmark ${inspectedPool+1}: ${pool.candidates.length} nearby responses`:'Blue dots: detected image locations','rfp-sub');
+  s+=text(723,526,pool?`Landmark ${inspectedPool+1}: ${pool.candidates.length} nearby responses`:'Click a blue dot to trace its inputs','rfp-sub');
   }
   $('rfp-canvas').innerHTML=s;
   $('rfp-canvas').setAttribute('aria-label',`Fig. 6 prime. Three exemplars: 0, 3, and 7. Digit ${exemplar.label} selected. ${F.name}: ${detections.length} response positions and ${featurePools.length} matching landmarks, out of ${model.pools.length} exemplar-specific pools. Stage ${stage}.`);
   $('rfp-exemplar-label').textContent=`Digit ${exemplar.label}`;$('rfp-exemplar-count').textContent=`${focus+1} / 3 exemplars`;
   $('rfp-feature-name').textContent=`${F.name} / 8`;
-  $('rfp-orientation').textContent=`${channel*22.5}° filter`;$('rfp-channel-count').textContent=`${channel+1} / 16 filters`;
   $('rfp-run').textContent=timer!==null?'Pause Forward Pass':done?'Run Forward Pass ↻':stage>0?'Resume Forward Pass':'Run Forward Pass ↑';
   $('rfp-reset').hidden=stage===0;
   const titles={ready:`${F.name}: ${detections.length} response positions, ${featurePools.length} landmark${featurePools.length===1?'':'s'}`,edges:'Collect the oriented edges',bends:'Edges combine into bends',evidence:'Keep every supported bend position',lateral:'Lateral messages coordinate the bend landmarks',settled:'The joint choices are settled',readout:'Reveal the jointly chosen shape',exemplar:'Evidence reaches the exemplar',score:`Bend match score: ${frame.score}`};
   const bodies={
-   ready:'Blue dots show every detected position. Highlighted landmarks use this feature type; each connects only to responses inside its own spatial pool.',
-   edges:'The sixteen edge channels share one view during the forward pass.',
-   bends:'Three edge parts in a compatible arrangement activate each bend response.',
+   ready:`${F.name} selects edge maps A, B, and C together. Colored wires trace one response to its three observed edges; click another blue dot to inspect that location.`,
+   edges:`The three highlighted edge maps supply ${F.name}. Their A, B, and C labels match the three parts of its template.`,
+   bends:`Follow three colored inputs into the highlighted ${F.name} response. All eight bend maps are evaluated for the forward pass; these three edge maps remain in focus.`,
    evidence:'Each landmark keeps all nearby bend responses as candidates. Lateral constraints will coordinate their placements.',
    lateral:'Blue pulses carry scores for all 625 placements to neighboring pools. Stronger wires mark better-supported candidates; the landmarks stay at their stored positions.',
    settled:'The tree pass has selected a compatible joint arrangement. Match colors are now fixed; next we reveal the chosen positions.',
@@ -288,14 +289,13 @@
  $('rfp-reset').addEventListener('click',()=>{stop();stage=0;render();});
  $('rfp-exemplar-next').addEventListener('click',()=>chooseExemplar((focus+1)%3));
  $('rfp-next-feature').addEventListener('click',()=>chooseFeature((feature+1)%8));
- $('rfp-channel-next').addEventListener('click',()=>{stop();stage=0;channel=(channel+1)%16;edgeMode='filter';render('filter');});
  $('rfp-links').addEventListener('change',e=>{links=e.target.checked;render();});
  $('rfp-show-lateral').addEventListener('change',e=>{figure.dataset.lateralNodes=String(e.target.checked);});
  function pick(e){
   const exemplar=e.target.closest('[data-rfp-exemplar]'),pool=e.target.closest('[data-rfp-pool]'),point=e.target.closest('[data-rfp-response]');
   if(exemplar)chooseExemplar(Number(exemplar.dataset.rfpExemplar));
   else if(pool)chooseFeature(Number(pool.dataset.rfpPoolFeature),Number(pool.dataset.rfpPool));
-  else if(point){stop();responseInspected=true;response=point.dataset.rfpResponse.split(':').map(Number);render();}
+  else if(point){stop();response=point.dataset.rfpResponse.split(':').map(Number);render();}
  }
  $('rfp-canvas').addEventListener('click',pick);
  $('rfp-canvas').addEventListener('keydown',e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();pick(e);}});
