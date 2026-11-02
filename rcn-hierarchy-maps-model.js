@@ -61,7 +61,7 @@
   const training=maps(trainingEdges),input=maps(testEdges);
   // Each spatial occurrence in the TRAINING image can become a landmark.
   // Several landmarks may reuse the same feature map; test detections never
-  // determine the stored locations. These illustrative landmarks carry no score.
+  // determine the stored locations.
   const pools=features.flatMap(feature=>{
    const points=training.responses[feature.id].points;
    return locations(points).map(([r,c])=>{
@@ -72,5 +72,15 @@
   });
   return {training,input,pools};
  }
- root.RCNHierarchyMaps={size,area,features,poolRadius,maps,indexEdges,witnesses,locations,create};
+ function progression(model,laterals){
+  const landmarks=model.pools.map(p=>[p.feature,p.r,p.c]);
+  if(JSON.stringify(landmarks)!==JSON.stringify(laterals.landmarks))throw new Error('Hierarchy lateral export is out of date; rerun export-rcn-hierarchy.py');
+  // Reuse Fig. 6's unchanged max-sum engine. Even channel indices represent
+  // bend types; odd channels are empty, so its adjacent-channel lookup cannot
+  // accidentally pool across distinct bend types.
+  const test={edgelets:model.input.responses.flatMap((map,f)=>map.points.map(([r,c])=>[2*f,r,c]))};
+  const exemplar={landmarks:landmarks.map(([f,r,c])=>[2*f,r,c])};
+  return root.RCNForwardModel.progression(test,exemplar,laterals.tree);
+ }
+ root.RCNHierarchyMaps={size,area,features,poolRadius,maps,indexEdges,witnesses,locations,create,progression};
 })(globalThis);

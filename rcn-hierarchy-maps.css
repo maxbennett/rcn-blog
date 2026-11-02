@@ -23,6 +23,9 @@
 .rfp-run-control .rfp-secondary { position:absolute; left:calc(100% + 7px); top:50%; transform:translateY(-50%); }
 .rfp-control [hidden] { display:none; }
 .rfp-links { position:absolute; right:1.6%; top:22%; display:flex; align-items:center; gap:5px; color:#62776b; font:11px var(--ui); white-space:nowrap; }
+.rfp-lateral-toggle { top:25.5%; }
+.rfp-lateral-factor { display:none; pointer-events:none; }
+#rcn-forward-graph-prime[data-lateral-nodes="true"] .rfp-lateral-factor,.rfp-lateral-factor[data-rfp-active-factor="true"] { display:inline; }
 .rfp-links input { accent-color:#548c87; width:12px; height:12px; margin:0; }
 .rfp-exemplar-card { fill:white; stroke:#b8cdbf; stroke-width:1.1; filter:drop-shadow(0 2px 1px #032f5610); transition:fill .15s,stroke .15s; }
 [data-rfp-exemplar][aria-pressed="true"] .rfp-exemplar-card { fill:#f1f7f3; stroke:#548c87; stroke-width:1.6; }
