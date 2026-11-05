@@ -56,12 +56,20 @@
 .rx-bias output { font:.73rem var(--mono); width:4rem; text-align:right; }
 .rx-badge { display:inline-block; font:.69rem/1.4 var(--mono); padding:.25rem .45rem; border-radius:3px; background:#edf3ef; color:#4b7361; }
 .rx-figure .rx-footnote { font:.78rem/1.5 var(--ui); color:#66746e; margin:.7rem 0; }
-#rcn-ambiguity .ra-preference { justify-content:center; }
-#rcn-ambiguity .ra-preference button { flex:1; max-width:180px; }
-#rcn-ambiguity .rx-story { min-height:3.1em; }
-#rcn-ambiguity .ra-flow { stroke-dasharray:6 5; animation:ra-feedback .6s linear; }
-@keyframes ra-feedback { to { stroke-dashoffset:-44; } }
+#rcn-ambiguity .ra-heading { align-items:center; flex-wrap:wrap; gap:.7rem; padding-bottom:.7rem; }
+#rcn-ambiguity .ra-preference { flex-wrap:nowrap; gap:.4rem; margin:0; }
+#rcn-ambiguity .ra-preference button { min-height:36px; padding:.5rem .75rem; }
+#rcn-ambiguity .ra-diagram { min-width:0; max-width:680px; margin:0 auto .8rem; }
+#rcn-ambiguity .ra-sr-only { position:absolute; width:1px; height:1px; padding:0; margin:-1px; overflow:hidden; clip-path:inset(50%); white-space:nowrap; }
+#rcn-ambiguity .ra-flow { stroke-dasharray:6 5; animation:ra-feedback .35s linear; }
+@keyframes ra-feedback { to { stroke-dashoffset:-33; } }
 @media(prefers-reduced-motion:reduce) { #rcn-ambiguity .ra-flow { animation:none; } }
+@media(max-width:600px) {
+ #rcn-ambiguity .ra-heading { display:flex; }
+ #rcn-ambiguity .ra-heading h4 { font-size:1.25rem; }
+ #rcn-ambiguity .ra-preference { margin-left:auto; }
+ #rcn-ambiguity .ra-diagram .rx-small { font-size:13px; }
+}
 @media(max-width:600px){
  .rx-heading { display:block; }.rx-kicker { display:block; margin-bottom:.4rem; }
  .rx-scenes { gap:.6rem; }.rx-scene { padding:.4rem; }.rx-scene svg { max-width:190px; }

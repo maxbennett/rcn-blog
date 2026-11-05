@@ -31,9 +31,9 @@
   <link rel="stylesheet" href="rcn-phenomena.css?v=3">
   <script src="rcn-phenomena.js?v=3" defer></script>
   <script src="article.js?v=4" defer></script>
-  <link rel="stylesheet" href="rcn-extensions.css?v=2">
+  <link rel="stylesheet" href="rcn-extensions.css?v=3">
   <script src="rcn-extensions-model.js?v=2" defer></script>
-  <script src="rcn-extensions.js?v=4" defer></script>
+  <script src="rcn-extensions.js?v=5" defer></script>
   <link rel="stylesheet" href="intro-figure.css?v=16">
   <script src="intro-figure.js?v=16" defer></script>
   <link rel="stylesheet" href="assets/katex/katex.min.css">
@@ -425,16 +425,10 @@
           <p>Sometimes the same strokes support more than one reading. The character below can be grouped as a <strong>B</strong>, or split into <strong>1</strong> and <strong>3</strong>. Both explanations account for the entire image: B claims all the strokes, while 1 claims the stem and 3 claims the two lobes.</p>
           <p>A small top-down preference can select between these explanations. Favor the letter or the digits below, and watch the active exemplars and their connections to the shared strokes switch together. The observed image stays fixed.</p>
           <figure id="rcn-ambiguity" class="rx-figure" aria-labelledby="ra-title">
-            <div class="rx-heading"><h4 id="ra-title">One image: B or 13?</h4><span class="rx-kicker">Top-down interpretation</span></div>
-            <div class="rx-scenes">
-              <div class="rx-scene"><div class="rx-label"><strong>Observed image</strong></div><svg id="ra-input" class="rx-graph" style="min-width:0" viewBox="0 0 260 235" role="img" aria-label="An ambiguous character: a vertical stem beside two connected lobes, readable as B or 13"></svg><div class="rx-label">The strokes always stay the same</div></div>
-              <div class="rx-scene"><div class="rx-label"><strong>Selected grouping</strong></div><svg id="ra-output" class="rx-graph" style="min-width:0" viewBox="0 0 260 235" role="img" aria-label="The same strokes grouped under their selected exemplars"></svg><div id="ra-output-label" class="rx-label"></div></div>
-            </div>
-            <div class="rx-controls ra-preference" role="group" aria-label="Top-down preference"><button type="button" data-ra-bias="-0.4" aria-pressed="true">Favor B</button><button type="button" data-ra-bias="0.4" aria-pressed="false">Favor 1 + 3</button></div>
-            <div aria-live="polite"><span id="ra-status" class="rx-badge">Preference favors B</span><div class="rx-stage"><strong id="ra-stage"></strong></div><p id="ra-story" class="rx-story"></p></div>
-            <div class="rx-graph-scroll" tabindex="0" role="region" aria-label="Character interpretation graph; scroll horizontally on small screens"><svg id="ra-graph" class="rx-graph" viewBox="0 0 680 410" role="img" aria-label="B, 1, and 3 exemplars connect through shared OR factors to six observed stroke parts"></svg></div>
-            <p class="rx-footnote">Colors show which exemplar explains each stroke. Faint connections show the alternative explanation.</p>
-            <figcaption><strong>Fig. 9: The same strokes, two explanations.</strong> A hand-specified character example illustrating shared evidence and top-down selection, rather than a result from a trained letter recognizer. For RCN’s shared OR factors and top-down object-based attention, see <a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC11800772/">George et al. (2025)</a>.</figcaption>
+            <div class="rx-heading ra-heading"><h4 id="ra-title">One image: B or 13?</h4><div class="rx-controls ra-preference" role="group" aria-label="Top-down preference"><button type="button" data-ra-bias="-0.4" aria-pressed="true">Favor B</button><button type="button" data-ra-bias="0.4" aria-pressed="false">Favor 1 + 3</button></div></div>
+            <svg id="ra-graph" class="rx-graph ra-diagram" viewBox="0 0 680 390" role="img" aria-label="B, 1, and 3 exemplars share the stem and lobes of one fixed glyph. Color shows the selected grouping."></svg>
+            <span id="ra-status" class="ra-sr-only" aria-live="polite"></span>
+            <figcaption><strong>Fig. 9: The same strokes, two explanations.</strong> Color shows which exemplar explains the fixed strokes. The stem and lobes summarize shared evidence in this hand-specified example; this is not a trained letter recognizer. For RCN’s shared OR factors and top-down object-based attention, see <a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC11800772/">George et al. (2025)</a>.</figcaption>
             <noscript><p>JavaScript enables the preference controls. B and 1 + 3 explain the same six stroke parts. A small top-down preference selects which exemplars group those strokes.</p></noscript>
           </figure>
           <p>This illustrates a useful distinction: the model can represent uncertainty about several explanations while displaying a single best joint interpretation. A small preference near a tie can switch that interpretation completely. Explaining why perception sometimes alternates spontaneously would require additional dynamics beyond this example.</p>
