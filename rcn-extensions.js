@@ -104,76 +104,86 @@
   }
 
   if($('rcn-ambiguity')){
-    let bias=0,selected=0,stage=3,timer=null,model=M.ambiguity(),previous=model;
+    const inks=['#45827b','#0f67a2','#a97735'],xs=[160,340,520],strokeXs=[90,190,290,390,490,590];
+    let bias=0,selected=1,stage=2,timer=null,model=M.ambiguity(),previous=model;
+    const reading=mask=>mask===1?'B':'1 + 3';
     function stop(){clearInterval(timer);timer=null;}
-    function cube(z,observed=false){
+    function character(result,observed=false){
       let s='';
       if(!observed){
-        const ids=z===0?[0,1,2,3]:[4,5,6,7];
-        s+=`<polygon points="${ids.map(i=>M.vertices[i].join(',')).join(' ')}" fill="${z===0?'#dceee8':'#e0ebf6'}" fill-opacity=".88"/>`;
+        const groups=result.selected===1?[[65,132,0]]:[[66,31,1],[98,99,2]];
+        groups.forEach(([x,w,i])=>{s+=`<rect x="${x}" y="29" width="${w}" height="173" rx="7" fill="${inks[i]}" fill-opacity=".045" stroke="${inks[i]}" stroke-opacity=".35"/>`;});
       }
-      M.cubeEdges.forEach(([a,b],i)=>{
-        const front=!observed&&(z===0?i<4:i>=4&&i<8);
-        s+=line(M.cubeInput[i],observed?'#263b40':front?(z===0?'#45827b':'#0f67a2'):'#a9bbb4',front?4:2);
+      M.characterParts.forEach((part,j)=>{
+        const owner=result.owners[j][0],ink=observed?'#263b40':inks[owner];
+        s+=`<path data-ra-stroke="${j}" data-owner="${observed?'input':M.characterNames[owner]}" d="${part.d}" fill="none" stroke="${ink}" stroke-width="6" stroke-linecap="round" stroke-linejoin="round"/>`;
       });
-      s+=text(40,206,'A','rx-small')+text(220,40,'B','rx-small');
+      if(!observed){
+        if(result.selected===1)s+=text(130,222,'B · one character','rx-small');
+        else s+=text(83,222,'1','rx-small')+text(146,222,'3','rx-small');
+      }
       return s;
     }
-    const delta=m=>m[1]-m[0];
     function render(){
-      const z=stage>=3?model.selected:previous.selected;
-      $('ra-input').innerHTML=cube(0,true);$('ra-output').innerHTML=cube(z);
-      $('ra-output-label').textContent=`${z===0?'A · lower-left':'B · upper-right'} face interpreted as nearer`;
-      $('ra-bias').value=bias;$('ra-bias-value').textContent=score(bias);
+      const decoded=stage>=2?model:previous,active=stage>=1?model:previous;
+      $('rcn-ambiguity').dataset.stage=String(stage);
+      $('rcn-ambiguity').dataset.reading=String(decoded.selected);
+      $('ra-input').innerHTML=character(model,true);$('ra-output').innerHTML=character(decoded);
+      $('ra-output').setAttribute('aria-label',decoded.selected===1?'The same strokes grouped into one B exemplar':'The same strokes split between a 1 exemplar and a 3 exemplar');
+      $('ra-output-label').textContent=decoded.selected===1?'One B owns all six stroke parts':'1 owns the stem; 3 owns the two lobes';
       document.querySelectorAll('[data-ra-bias]').forEach(b=>b.setAttribute('aria-pressed',String(Math.sign(Number(b.dataset.raBias))===Math.sign(bias))));
       ['a','b'].forEach((name,i)=>{
-        $('ra-score-'+name).textContent=score(model.scores[i]);
-        $('ra-prior-'+name).textContent=`image fit 12 + bias ${score(model.unary[i])}`;
-        $('ra-card-'+name).classList.toggle('is-selected',stage>=3&&model.selected===i);
+        const world=model.worlds[i===0?1:6];
+        $('ra-score-'+name).textContent=score(world.score);
+        $('ra-prior-'+name).textContent=`image ${world.imageScore} − cost ${world.cost} + preference ${score(world.preference)}`;
       });
-      const messages=['The top-down bias changes','Feedback reaches the faces','Feedback reaches the junctions','One coherent interpretation'];
+      const titles=['A small preference changes at the top','The exemplar selection switches','The strokes acquire one coherent grouping'];
       const stories=[
-        'Only the prior at the top changes. The twelve projected lines still give exactly the same image evidence to both explanations.',
-        'The two face variables receive different support for their near/far roles. Their depth ordering must agree with the whole-cube interpretation.',
-        'The face messages constrain their junctions. Each outgoing message excludes the evidence it received from that same junction.',
-        model.tied?'Both joint explanations score 12. The display retains the previously selected tied solution; the model has no preference.':`A bias of ${Math.abs(bias).toFixed(2)} score units favors ${model.selected===0?'A':'B'}. Its whole depth assignment wins, even though the image has not changed.`
+        `The observation stays fixed. Only the preference for a letter or a pair of digits changes.`,
+        model.selected===1?'B becomes active; the 1 and 3 exemplars become inactive.':'The 1 and 3 exemplars become active together; B becomes inactive.',
+        model.tied?'Both readings explain every stroke equally well. With no preference, the display keeps the last selected reading.':model.selected===1?'Feedback groups the entire contour under B. The competing 1 and 3 explanation remains possible.':'Feedback assigns the stem to 1 and both lobes to 3. The input itself has not moved or changed.'
       ];
-      $('ra-stage').textContent=messages[stage];$('ra-story').textContent=stories[stage];
-      $('ra-status').textContent=model.tied?'Equal scores · two valid explanations':`Selected explanation: ${model.selected===0?'A':'B'}`;
+      $('ra-stage').textContent=titles[stage];$('ra-story').textContent=stories[stage];
+      $('ra-status').textContent=model.tied?'Equal support · both readings are valid':`Preference favors ${reading(model.selected)}`;
       $('ra-replay').disabled=timer!==null;
-      let g='';
-      [200,480].forEach((x,f)=>{
-        g+=path(`M340 78 L${x} 157`,stage>=1?'rx-line rx-feedback':'rx-line')+factor((340+x)/2,118);
-        [x-65,x+65].forEach((xx,k)=>{
-          g+=path(`M${x} 195 L${xx} 274`,stage>=2?'rx-line rx-feedback':'rx-line')+factor((x+xx)/2,232);
-          g+=path(`M${xx} 304 V343`,'rx-line')+node(xx,291,15,stage>=2);
-          const state=stage>=2?model.junctions[2*f+k]:previous.junctions[2*f+k];
-          g+=text(xx,296,state?'N':'F');
-          g+=text(xx,325,`j${2*f+k+1} · ${stage>=2?score(delta(model.junctionDown[2*f+k])):'0.00'}`,'rx-small');
-          g+=`<rect x="${xx-35}" y="350" width="70" height="28" rx="4" fill="#eef2ed"/>`+text(xx,369,'3 edges','rx-small');
-        });
-        g+=node(x,176,21,stage>=1);
-        const state=stage>=1?model.faces[f]:previous.faces[f];
-        g+=text(x,182,state?'near':'far');
-        g+=text(x,216,`Face ${f===0?'A':'B'}`,'rx-small');
-        g+=text(x+(f===0?-55:55),150,stage>=1?score(delta(model.faceDown[f])):'0.00','rx-score');
+      let g=text(340,19,'EXEMPLARS','rx-small');
+      // Each observed part has a shared OR factor. All alternative explanations
+      // remain visible; selection changes which exemplar-to-evidence links light.
+      M.characterFeatures.forEach((parts,i)=>parts.forEach(j=>{
+        const xx=strokeXs[j],on=stage>=2?model.exemplars[i]:previous.exemplars[i];
+        const flow=timer!==null&&stage===1&&model.exemplars[i];
+        g+=`<path data-ra-link="${i}:${j}" data-active="${Boolean(on)}" d="M${xs[i]} 115 L${xx} 226" fill="none" stroke="${inks[i]}" stroke-width="${on||flow?2.5:1}" opacity="${on||flow?.8:.13}" ${flow?'class="ra-flow"':''}/>`;
+      }));
+      xs.forEach((x,i)=>{
+        const on=active.exemplars[i];
+        g+=`<g data-ra-exemplar="${i}" data-active="${Boolean(on)}"><path d="M${x} 88 V107" fill="none" stroke="${inks[i]}" stroke-width="1.5" opacity="${on?1:.25}"/>`;
+        g+=`<path d="M${x-7} 116 L${x} 104 L${x+7} 116Z" fill="${on?inks[i]:'#e2e8e2'}"/>`;
+        g+=`<circle cx="${x}" cy="62" r="26" fill="${on?'#f0f6f2':'white'}" stroke="${on?inks[i]:'#d2ddd7'}" stroke-width="${on?2.4:1.3}"/>`;
+        g+=`<text x="${x}" y="70" style="font-size:23px;fill:${on?inks[i]:'#9aa9a2'}">${M.characterNames[i]}</text>`;
+        g+=text(x,141,on?'ON':'off','rx-small')+'</g>';
       });
-      g+=node(340,53,26,true)+text(340,59,model.selected===0?'A':'B');
-      g+=text(340,16,'WHOLE-CUBE INTERPRETATION','rx-small');
-      g+=text(455,57,`B − A = ${score(bias)}`,'rx-score');
-      g+=text(340,408,'SAME TWELVE PROJECTED LINES','rx-small');
+      strokeXs.forEach((x,j)=>{
+        const owner=decoded.owners[j][0],ink=inks[owner];
+        g+=`<rect x="${x-15}" y="226" width="30" height="21" rx="3" fill="white" stroke="#b6c7bd"/>`+text(x,241,'OR','rx-small');
+        g+=`<path d="M${x} 247 V272" fill="none" stroke="${ink}" stroke-width="2"/><circle cx="${x}" cy="273" r="4" fill="${ink}"/>`;
+        const part=M.characterParts[j];
+        g+=`<rect x="${x-32}" y="289" width="64" height="47" rx="4" fill="#f5f8f4" stroke="#e3e9e4"/><svg x="${x-24}" y="297" width="48" height="31" viewBox="${part.viewBox}"><path d="${part.d}" fill="none" stroke="#263b40" stroke-width="5" stroke-linecap="round"/></svg>`;
+        g+=text(x,356,`owned by ${M.characterNames[owner]}`,'rx-small');
+      });
+      g+=text(340,388,'SAME OBSERVED STROKE PARTS','rx-small');
       $('ra-graph').innerHTML=g;
-      $('ra-message-table').innerHTML=model.faceDown.map((m,f)=>`<tr><td>Face ${f===0?'A':'B'}</td><td>${score(m[0])}</td><td>${score(m[1])}</td><td>${score(delta(m))}</td></tr>`).join('');
+      $('ra-graph').setAttribute('aria-label',`Shared-evidence graph. ${reading(active.selected)} active. Each stroke is explained once; inactive alternative connections remain faint.`);
+      $('ra-message-table').innerHTML=model.maxMarginals.map((m,i)=>`<tr><td>${M.characterNames[i]}</td><td>${score(m[0])}</td><td>${score(m[1])}</td><td>${score(m[1]-m[0])}</td></tr>`).join('');
     }
     function change(value,animate=true){
-      stop();previous=M.ambiguity(0,selected);bias=value;model=M.ambiguity(bias,selected);
+      const visible=stage>=2?model:previous;
+      stop();previous=visible;selected=visible.selected;bias=value;model=M.ambiguity(bias,selected);
       if(animate&&!reduced()){
-        stage=0;timer=setInterval(()=>{stage++;if(stage===3){stop();selected=model.selected;}render();},650);
-      }else{stage=3;selected=model.selected;}
+        stage=0;timer=setInterval(()=>{stage++;if(stage===2){stop();selected=model.selected;}render();},600);
+      }else{stage=2;selected=model.selected;}
       render();
     }
     document.querySelectorAll('[data-ra-bias]').forEach(b=>b.addEventListener('click',()=>change(Number(b.dataset.raBias))));
-    $('ra-bias').addEventListener('input',()=>change(Number($('ra-bias').value),false));
     $('ra-replay').addEventListener('click',()=>change(bias));
     render();
   }

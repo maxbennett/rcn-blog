@@ -31,9 +31,9 @@
   <link rel="stylesheet" href="rcn-phenomena.css?v=3">
   <script src="rcn-phenomena.js?v=3" defer></script>
   <script src="article.js?v=4" defer></script>
-  <link rel="stylesheet" href="rcn-extensions.css?v=1">
-  <script src="rcn-extensions-model.js?v=1" defer></script>
-  <script src="rcn-extensions.js?v=1" defer></script>
+  <link rel="stylesheet" href="rcn-extensions.css?v=2">
+  <script src="rcn-extensions-model.js?v=2" defer></script>
+  <script src="rcn-extensions.js?v=2" defer></script>
   <link rel="stylesheet" href="intro-figure.css?v=16">
   <script src="intro-figure.js?v=16" defer></script>
   <link rel="stylesheet" href="assets/katex/katex.min.css">
@@ -445,29 +445,29 @@
           <p>Full RCN also couples contours to a <em>surface-appearance canvas</em>, representing properties such as color and texture within boundaries. Our contour walkthrough leaves that component aside; we return to published visual phenomena below.</p>
 
           <h3 id="bistable-perception">When more than one explanation fits</h3>
-          <p>Sometimes the image does not determine a unique explanation. Look at the wireframe cube below: either of its two offset square faces can appear nearer. Both interpretations account for exactly the same lines. Selecting one changes the inferred depth of its parts, without changing the image.</p>
-          <p>A small top-down preference can break such a tie. The next illustration adds explicit depth variables to a small teaching graph. Favor one whole-cube interpretation, and feedback selects compatible face and junction assignments all the way down. The alternative remains a valid explanation, but receives a slightly lower score.</p>
+          <p>Sometimes the same strokes support more than one reading. The character below can be grouped as a <strong>B</strong>, or split into <strong>1</strong> and <strong>3</strong>. Both explanations account for the entire image: B claims all the strokes, while 1 claims the stem and 3 claims the two lobes.</p>
+          <p>A small top-down preference can select between these explanations. Favor the letter or the digits below, and watch the active exemplars and their connections to the shared strokes switch together. The observed image stays fixed.</p>
           <figure id="rcn-ambiguity" class="rx-figure" aria-labelledby="ra-title">
-            <div class="rx-heading"><h4 id="ra-title">One image. Two ways to see it.</h4><span class="rx-kicker">Top-down interpretation</span></div>
+            <div class="rx-heading"><h4 id="ra-title">One image: B or 13?</h4><span class="rx-kicker">Top-down interpretation</span></div>
             <div class="rx-scenes">
-              <div class="rx-scene"><div class="rx-label"><strong>Observed input · always unchanged</strong></div><svg id="ra-input" class="rx-graph" style="min-width:0" viewBox="0 0 260 235" role="img" aria-label="Unchanging ambiguous Necker cube with faces A and B labeled"></svg><div class="rx-label">Both readings fit these twelve lines</div></div>
-              <div class="rx-scene"><div class="rx-label"><strong>Selected interpretation</strong></div><svg id="ra-output" class="rx-graph" style="min-width:0" viewBox="0 0 260 235" role="img" aria-label="Cube interpretation with the inferred nearer face highlighted"></svg><div id="ra-output-label" class="rx-label"></div></div>
+              <div class="rx-scene"><div class="rx-label"><strong>Observed image</strong></div><svg id="ra-input" class="rx-graph" style="min-width:0" viewBox="0 0 260 235" role="img" aria-label="An ambiguous character: a vertical stem beside two connected lobes, readable as B or 13"></svg><div class="rx-label">The strokes always stay the same</div></div>
+              <div class="rx-scene"><div class="rx-label"><strong>Selected grouping</strong></div><svg id="ra-output" class="rx-graph" style="min-width:0" viewBox="0 0 260 235" role="img" aria-label="The same strokes grouped under their selected exemplars"></svg><div id="ra-output-label" class="rx-label"></div></div>
             </div>
-            <div class="rx-controls" role="group" aria-label="Top-down preference"><button type="button" data-ra-bias="-0.4" aria-pressed="false">Favor A · lower-left face</button><button type="button" data-ra-bias="0" aria-pressed="true">Remove bias</button><button type="button" data-ra-bias="0.4" aria-pressed="false">Favor B · upper-right face</button></div>
-            <div class="rx-bias"><label for="ra-bias">Bias toward B</label><input id="ra-bias" type="range" min="-0.6" max="0.6" step="0.02" value="0" aria-label="Top-down bias: negative favors A, positive favors B"><output id="ra-bias-value" for="ra-bias">0.00</output></div>
-            <div class="rx-scorecards"><div id="ra-card-a" class="rx-scorecard"><strong>A · lower-left face nearer</strong><output id="ra-score-a">+12.00</output><small id="ra-prior-a">image fit 12 + bias 0.00</small></div><div id="ra-card-b" class="rx-scorecard"><strong>B · upper-right face nearer</strong><output id="ra-score-b">+12.00</output><small id="ra-prior-b">image fit 12 + bias 0.00</small></div></div>
-            <div aria-live="polite"><span id="ra-status" class="rx-badge">Equal scores · two valid explanations</span><div class="rx-stage"><strong id="ra-stage"></strong></div><p id="ra-story" class="rx-story"></p></div>
-            <div class="rx-graph-scroll" tabindex="0" role="region" aria-label="Cube interpretation graph; scroll horizontally on small screens"><svg id="ra-graph" class="rx-graph" viewBox="0 0 680 425" role="img" aria-label="Feedback from a cube interpretation to its two faces and four junction depth variables"></svg></div>
-            <p class="rx-footnote">N = near; F = far. Message labels show support for near minus far. The colored face is an interpretation overlay, not added input evidence.</p>
-            <div class="rx-controls"><button id="ra-replay" type="button">Replay feedback ↓</button></div>
-            <details><summary>What changes inside the model?</summary>
-              <p>The top variable chooses A or B. Two face variables encode near/far, and four junction variables inherit their face’s depth role. Hard compatibility factors permit exactly two joint depth assignments. This exclusivity is a modeling assumption about one cube, not a rule that RCN can recognize only one object.</p>
-              <p>The twelve observed edges contribute +12 to either assignment, grouped into four identical three-edge messages. A bias b contributes −b/2 to A and +b/2 to B. Exact max-sum messages travel upward and then down this tree. Each downward message excludes the receiving branch’s upward contribution.</p>
-              <table><thead><tr><th scope="col">Recipient</th><th scope="col">Far</th><th scope="col">Near</th><th scope="col">Difference</th></tr></thead><tbody id="ra-message-table"></tbody></table>
-              <p>At zero bias both complete interpretations are MAP solutions. The display keeps the last selected solution (A initially). That tie-breaking is not simulated neural persistence. This demonstration does not model spontaneous perceptual alternation, adaptation, or noise, and its scores are not probabilities. The inference stages are computed messages, not measurements of biological time.</p>
+            <div class="rx-controls ra-preference" role="group" aria-label="Top-down preference"><button type="button" data-ra-bias="-0.4" aria-pressed="false">Favor B</button><button type="button" data-ra-bias="0" aria-pressed="true">No preference</button><button type="button" data-ra-bias="0.4" aria-pressed="false">Favor 1 + 3</button></div>
+            <div aria-live="polite"><span id="ra-status" class="rx-badge">Equal support · both readings are valid</span><div class="rx-stage"><strong id="ra-stage"></strong></div><p id="ra-story" class="rx-story"></p></div>
+            <div class="rx-graph-scroll" tabindex="0" role="region" aria-label="Character interpretation graph; scroll horizontally on small screens"><svg id="ra-graph" class="rx-graph" viewBox="0 0 680 410" role="img" aria-label="B, 1, and 3 exemplars connect through shared OR factors to six observed stroke parts"></svg></div>
+            <p class="rx-footnote">Colors show which exemplar explains each stroke. Faint connections show the alternative explanation.</p>
+            <div class="rx-controls"><button id="ra-replay" type="button">Replay selection ↓</button></div>
+            <details><summary>How is the explanation selected?</summary>
+              <p>Three on/off exemplar variables—B, 1, and 3—give eight possible joint explanations. B predicts all six stroke parts; 1 predicts the two stem parts; 3 predicts the four lobe parts. Shared OR factors count each observed part once, even if several exemplars predict it. A matching prediction contributes +1 and a mismatch −1.</p>
+              <p>For this deliberately ambiguous example, B has a cost of 1 and each digit a cost of 0.5. Thus B and 1 + 3 have equal base scores of 6 − 1 = 5. Activating redundant exemplars adds cost without adding image evidence. A small preference b contributes −b/2 to B and +b/4 to each digit. The buttons set b to −0.4, 0, or +0.4.</p>
+              <div class="rx-scorecards"><div id="ra-card-a" class="rx-scorecard"><strong>B · one character</strong><output id="ra-score-a">+5.00</output><small id="ra-prior-a">image 6 − cost 1 + preference 0.00</small></div><div id="ra-card-b" class="rx-scorecard"><strong>1 + 3 · two characters</strong><output id="ra-score-b">+5.00</output><small id="ra-prior-b">image 6 − cost 1 + preference 0.00</small></div></div>
+              <p>The demo compares all eight assignments exactly. The table gives the best joint score with each exemplar held off or on. Feedback displays the selected exemplars and the resulting assignment of strokes; the animation is not a simulation of message timing.</p>
+              <table><thead><tr><th scope="col">Exemplar</th><th scope="col">Best if off</th><th scope="col">Best if on</th><th scope="col">On − off</th></tr></thead><tbody id="ra-message-table"></tbody></table>
+              <p>At zero preference, B and 1 + 3 are both best solutions. The display keeps the last selected reading, starting with B. This tie-breaking convention does not model spontaneous perceptual switching, adaptation, or noise. Scores are not probabilities.</p>
             </details>
-            <figcaption><strong>Fig. 9: Feedback selects a coherent reading of an ambiguous image.</strong> A hand-specified depth-interpretation model illustrating top-down selection. It extends the contour-only walkthrough with explicit depth roles; it is not a reproduction of Vicarious’s Necker-cube implementation. Dileep describes lab examples and node perturbations in <a href="https://brain-inspired.castos.com/episodes/bi-093-dileep-george-inference-in-brain-microcircuits">Brain Inspired episode 93, 1:01:49–1:02:52</a>. For RCN’s top-down attention mechanism, see <a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC11800772/">George et al. (2025)</a>.</figcaption>
-            <noscript><p>JavaScript enables the bias control. Both cube interpretations have equal image-fit scores; a finite top-down preference chooses one consistent depth assignment.</p></noscript>
+            <figcaption><strong>Fig. 9: The same strokes, two explanations.</strong> A hand-specified character example illustrating shared evidence and top-down selection, rather than a result from a trained letter recognizer. For RCN’s shared OR factors and top-down object-based attention, see <a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC11800772/">George et al. (2025)</a>.</figcaption>
+            <noscript><p>JavaScript enables the preference controls. B and 1 + 3 explain the same six stroke parts. A small top-down preference selects which exemplars group those strokes.</p></noscript>
           </figure>
           <p>This illustrates a useful distinction: the model can represent uncertainty about several explanations while displaying a single best joint interpretation. A small preference near a tie can switch that interpretation completely. Explaining why perception sometimes alternates spontaneously would require additional dynamics beyond this example.</p>
         </section>

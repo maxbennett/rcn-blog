@@ -1,6 +1,6 @@
 /* Small, hand-specified teaching models. No trained MNIST weights are used.
  * Hierarchy: exact max-sum over discrete placements and compatibility factors.
- * Ambiguity: exact tree messages over explicit cube-depth interpretation variables.
+ * Ambiguity: exact joint inference over B, 1, and 3 with shared OR evidence.
  * All numbers are log scores, not posterior probabilities or neural firing rates. */
 (function(root){
   'use strict';
@@ -43,31 +43,46 @@
     return orientation===0?[x,y,x-d[0]*55,y]:[x,y,x,y-d[1]*55];
   }
 
-  const vertices=[[55,90],[155,90],[155,190],[55,190],[105,40],[205,40],[205,140],[105,140]];
-  const cubeEdges=[[0,1],[1,2],[2,3],[3,0],[4,5],[5,6],[6,7],[7,4],[0,4],[1,5],[2,6],[3,7]];
-  const cubeInput=Object.freeze(cubeEdges.map(([a,b])=>Object.freeze([...vertices[a],...vertices[b]])));
-  // z: which projected square is nearer (0=A, 1=B).
-  // face states: 1=near, 0=far. fA=1-z; fB=z.
-  // Two junction variables per face copy its depth role. Projected edge evidence
-  // is identical for both roles: each junction receives three +1 edge scores.
-  const faceFor=(z,f)=>f===0?1-z:z;
-  function ambiguity(bias=0,previous=0){
+  // One fixed, slightly separated stem and two lobes can be grouped as B or 13.
+  // Six contour parts are shared observations, not six independent copies per
+  // exemplar. Paths are immutable and identical in both interpretations.
+  const characterParts=Object.freeze([
+    {id:'stem-top',d:'M83 45 L83 116',viewBox:'75 40 16 82'},
+    {id:'stem-bottom',d:'M83 116 L83 187',viewBox:'75 110 16 83'},
+    {id:'upper-out',d:'M92 45 C128 38 174 43 174 80',viewBox:'85 35 96 52'},
+    {id:'upper-in',d:'M174 80 C174 104 146 116 94 116',viewBox:'87 73 94 50'},
+    {id:'lower-out',d:'M94 116 C146 116 180 123 176 154',viewBox:'87 109 96 52'},
+    {id:'lower-in',d:'M176 154 C173 190 132 198 92 187',viewBox:'85 147 98 53'}
+  ].map(Object.freeze));
+  const characterNames=Object.freeze(['B','1','3']);
+  const characterFeatures=Object.freeze([[0,1,2,3,4,5],[0,1],[2,3,4,5]].map(Object.freeze));
+  const characterCosts=Object.freeze([1,.5,.5]);
+  function ambiguity(bias=0,previous=1,observation=[1,1,1,1,1,1]){
     if(!Number.isFinite(bias)||Math.abs(bias)>.6)throw new RangeError('Bias must be within ±0.6.');
-    const unary=[-bias/2,bias/2],leafUp=Array.from({length:4},()=>[3,3]);
-    const faceUp=[0,1].map(f=>[0,1].map(z=>leafUp[2*f][faceFor(z,f)]+leafUp[2*f+1][faceFor(z,f)]));
-    const scores=unary.map((v,z)=>v+faceUp[0][z]+faceUp[1][z]);
-    const tied=Math.abs(scores[0]-scores[1])<1e-10;
-    const selected=tied?(previous===1?1:0):(scores[1]>scores[0]?1:0);
-    // Downward messages exclude the receiving branch's upward message.
-    const faceDown=[0,1].map(f=>[0,1].map(state=>{
-      const z=f===0?1-state:state;
-      return unary[z]+faceUp[1-f][z];
-    }));
-    const junctionDown=leafUp.map((_,j)=>[0,1].map(state=>faceDown[Math.floor(j/2)][state]+leafUp[j^1][state]));
-    const faces=[faceFor(selected,0),faceFor(selected,1)];
-    const junctions=faces.flatMap(s=>[s,s]);
-    return {bias,unary,scores,tied,selected,faces,junctions,leafUp,faceUp,faceDown,junctionDown,input:cubeInput,
-      trace:[{stage:'top',messages:unary},{stage:'faces',messages:faceDown},{stage:'junctions',messages:junctionDown},{stage:'decode',faces,junctions}]};
+    if(observation.length!==6||observation.some(v=>v!==0&&v!==1))throw new RangeError('Expected six binary observations.');
+    const prior=[-bias/2,bias/4,bias/4];
+    // Three binary exemplar variables give eight possible joint explanations.
+    // OR evidence is counted once, however many active exemplars predict it.
+    // Equal total costs make B and 1+3 equally plausible before adding context.
+    const worlds=Array.from({length:8},(_,mask)=>{
+      const exemplars=characterNames.map((_,i)=>(mask>>i)&1);
+      const owners=characterParts.map((_,j)=>characterNames.map((_,i)=>i).filter(i=>exemplars[i]&&characterFeatures[i].includes(j)));
+      const predicted=owners.map(a=>Number(a.length>0));
+      const imageScore=predicted.reduce((v,on,j)=>v+(on===observation[j]?1:-1),0);
+      const cost=exemplars.reduce((v,on,i)=>v+on*characterCosts[i],0);
+      const preference=exemplars.reduce((v,on,i)=>v+on*prior[i],0);
+      return {mask,exemplars,owners,predicted,imageScore,cost,preference,score:imageScore-cost+preference};
+    });
+    const best=Math.max(...worlds.map(w=>w.score)),optimal=worlds.filter(w=>Math.abs(w.score-best)<1e-10);
+    // Retaining a previous tied MAP solution is a display convention, not a
+    // dynamical model of perceptual persistence or spontaneous switching.
+    const chosen=optimal.find(w=>w.mask===previous)||optimal[0];
+    const maxMarginals=characterNames.map((_,i)=>[0,1].map(on=>Math.max(...worlds.filter(w=>w.exemplars[i]===on).map(w=>w.score))));
+    return {bias,prior,worlds,scores:[worlds[1].score,worlds[6].score],optimal:optimal.map(w=>w.mask),tied:optimal.length>1,
+      selected:chosen.mask,exemplars:chosen.exemplars,owners:chosen.owners,predicted:chosen.predicted,score:chosen.score,
+      maxMarginals,input:characterParts,observation:[...observation],
+      trace:[{stage:'prior',prior},{stage:'exemplars',exemplars:chosen.exemplars},{stage:'strokes',owners:chosen.owners}]};
   }
-  root.RCNExtensions={hierarchy,ambiguity,observations,evidence,compatible,edgeGeometry,corners,shifts,vertices,cubeEdges,cubeInput};
+  root.RCNExtensions={hierarchy,ambiguity,observations,evidence,compatible,edgeGeometry,corners,shifts,
+    characterParts,characterNames,characterFeatures,characterCosts};
 })(globalThis);
