@@ -56,9 +56,10 @@
 .rx-bias output { font:.73rem var(--mono); width:4rem; text-align:right; }
 .rx-badge { display:inline-block; font:.69rem/1.4 var(--mono); padding:.25rem .45rem; border-radius:3px; background:#edf3ef; color:#4b7361; }
 .rx-figure .rx-footnote { font:.78rem/1.5 var(--ui); color:#66746e; margin:.7rem 0; }
-#rcn-ambiguity .ra-heading { align-items:center; flex-wrap:wrap; gap:.7rem; padding-bottom:.7rem; }
-#rcn-ambiguity .ra-preference { flex-wrap:nowrap; gap:.4rem; margin:0; }
-#rcn-ambiguity .ra-preference button { min-height:36px; padding:.5rem .75rem; }
+#rcn-ambiguity .ra-heading { justify-content:flex-end; align-items:center; padding-top:1rem; padding-bottom:.6rem; }
+#rcn-ambiguity .ra-preference { flex-wrap:nowrap; gap:.7rem; margin:0; }
+#rcn-ambiguity .ra-options { display:flex; gap:3px; padding:3px; border:1px solid var(--rule); border-radius:6px; background:#f6f8f6; }
+#rcn-ambiguity .ra-preference button { min-width:44px; min-height:36px; padding:.5rem .75rem; border:0; }
 #rcn-ambiguity .ra-diagram { min-width:0; max-width:680px; margin:0 auto .8rem; }
 #rcn-ambiguity .ra-sr-only { position:absolute; width:1px; height:1px; padding:0; margin:-1px; overflow:hidden; clip-path:inset(50%); white-space:nowrap; }
 #rcn-ambiguity .ra-flow { stroke-dasharray:6 5; animation:ra-feedback .35s linear; }
@@ -66,8 +67,6 @@
 @media(prefers-reduced-motion:reduce) { #rcn-ambiguity .ra-flow { animation:none; } }
 @media(max-width:600px) {
  #rcn-ambiguity .ra-heading { display:flex; }
- #rcn-ambiguity .ra-heading h4 { font-size:1.25rem; }
- #rcn-ambiguity .ra-preference { margin-left:auto; }
  #rcn-ambiguity .ra-diagram .rx-small { font-size:13px; }
 }
 @media(max-width:600px){
