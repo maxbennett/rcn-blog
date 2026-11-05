@@ -132,11 +132,6 @@
       $('ra-output').setAttribute('aria-label',decoded.selected===1?'The same strokes grouped into one B exemplar':'The same strokes split between a 1 exemplar and a 3 exemplar');
       $('ra-output-label').textContent=decoded.selected===1?'One B owns all six stroke parts':'1 owns the stem; 3 owns the two lobes';
       document.querySelectorAll('[data-ra-bias]').forEach(b=>b.setAttribute('aria-pressed',String(Math.sign(Number(b.dataset.raBias))===Math.sign(bias))));
-      ['a','b'].forEach((name,i)=>{
-        const world=model.worlds[i===0?1:6];
-        $('ra-score-'+name).textContent=score(world.score);
-        $('ra-prior-'+name).textContent=`image ${world.imageScore} − cost ${world.cost} + preference ${score(world.preference)}`;
-      });
       const titles=['A small preference changes at the top','The exemplar selection switches','The strokes acquire one coherent grouping'];
       const stories=[
         `The observation stays fixed. Only the preference for a letter or a pair of digits changes.`,
@@ -145,7 +140,6 @@
       ];
       $('ra-stage').textContent=titles[stage];$('ra-story').textContent=stories[stage];
       $('ra-status').textContent=model.tied?'Equal support · both readings are valid':`Preference favors ${reading(model.selected)}`;
-      $('ra-replay').disabled=timer!==null;
       let g=text(340,19,'EXEMPLARS','rx-small');
       // Each observed part has a shared OR factor. All alternative explanations
       // remain visible; selection changes which exemplar-to-evidence links light.
@@ -173,7 +167,6 @@
       g+=text(340,388,'SAME OBSERVED STROKE PARTS','rx-small');
       $('ra-graph').innerHTML=g;
       $('ra-graph').setAttribute('aria-label',`Shared-evidence graph. ${reading(active.selected)} active. Each stroke is explained once; inactive alternative connections remain faint.`);
-      $('ra-message-table').innerHTML=model.maxMarginals.map((m,i)=>`<tr><td>${M.characterNames[i]}</td><td>${score(m[0])}</td><td>${score(m[1])}</td><td>${score(m[1]-m[0])}</td></tr>`).join('');
     }
     function change(value,animate=true){
       const visible=stage>=2?model:previous;
@@ -184,7 +177,6 @@
       render();
     }
     document.querySelectorAll('[data-ra-bias]').forEach(b=>b.addEventListener('click',()=>change(Number(b.dataset.raBias))));
-    $('ra-replay').addEventListener('click',()=>change(bias));
     render();
   }
 })();

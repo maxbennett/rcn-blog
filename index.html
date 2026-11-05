@@ -33,7 +33,7 @@
   <script src="article.js?v=4" defer></script>
   <link rel="stylesheet" href="rcn-extensions.css?v=2">
   <script src="rcn-extensions-model.js?v=2" defer></script>
-  <script src="rcn-extensions.js?v=3" defer></script>
+  <script src="rcn-extensions.js?v=4" defer></script>
   <link rel="stylesheet" href="intro-figure.css?v=16">
   <script src="intro-figure.js?v=16" defer></script>
   <link rel="stylesheet" href="assets/katex/katex.min.css">
@@ -457,15 +457,6 @@
             <div aria-live="polite"><span id="ra-status" class="rx-badge">Preference favors B</span><div class="rx-stage"><strong id="ra-stage"></strong></div><p id="ra-story" class="rx-story"></p></div>
             <div class="rx-graph-scroll" tabindex="0" role="region" aria-label="Character interpretation graph; scroll horizontally on small screens"><svg id="ra-graph" class="rx-graph" viewBox="0 0 680 410" role="img" aria-label="B, 1, and 3 exemplars connect through shared OR factors to six observed stroke parts"></svg></div>
             <p class="rx-footnote">Colors show which exemplar explains each stroke. Faint connections show the alternative explanation.</p>
-            <div class="rx-controls"><button id="ra-replay" type="button">Replay selection ↓</button></div>
-            <details><summary>How is the explanation selected?</summary>
-              <p>Three on/off exemplar variables—B, 1, and 3—give eight possible joint explanations. B predicts all six stroke parts; 1 predicts the two stem parts; 3 predicts the four lobe parts. Shared OR factors count each observed part once, even if several exemplars predict it. A matching prediction contributes +1 and a mismatch −1.</p>
-              <p>For this deliberately ambiguous example, B has a cost of 1 and each digit a cost of 0.5. Thus B and 1 + 3 have equal base scores of 6 − 1 = 5. Activating redundant exemplars adds cost without adding image evidence. A small preference b contributes −b/2 to B and +b/4 to each digit. The buttons set b to −0.4 or +0.4, starting with a preference for B.</p>
-              <div class="rx-scorecards"><div id="ra-card-a" class="rx-scorecard"><strong>B · one character</strong><output id="ra-score-a">+5.00</output><small id="ra-prior-a">image 6 − cost 1 + preference 0.00</small></div><div id="ra-card-b" class="rx-scorecard"><strong>1 + 3 · two characters</strong><output id="ra-score-b">+5.00</output><small id="ra-prior-b">image 6 − cost 1 + preference 0.00</small></div></div>
-              <p>The demo compares all eight assignments exactly. The table gives the best joint score with each exemplar held off or on. Feedback displays the selected exemplars and the resulting assignment of strokes; the animation is not a simulation of message timing.</p>
-              <table><thead><tr><th scope="col">Exemplar</th><th scope="col">Best if off</th><th scope="col">Best if on</th><th scope="col">On − off</th></tr></thead><tbody id="ra-message-table"></tbody></table>
-              <p>Without a preference, B and 1 + 3 have equal scores. The two controls add a small preference to select one reading. This example does not model spontaneous perceptual switching, adaptation, or noise. Scores are not probabilities.</p>
-            </details>
             <figcaption><strong>Fig. 9: The same strokes, two explanations.</strong> A hand-specified character example illustrating shared evidence and top-down selection, rather than a result from a trained letter recognizer. For RCN’s shared OR factors and top-down object-based attention, see <a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC11800772/">George et al. (2025)</a>.</figcaption>
             <noscript><p>JavaScript enables the preference controls. B and 1 + 3 explain the same six stroke parts. A small top-down preference selects which exemplars group those strokes.</p></noscript>
           </figure>
