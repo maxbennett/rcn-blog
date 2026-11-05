@@ -61,12 +61,7 @@
   <script src="rcn-forward.js?v=9" defer></script>
   <link rel="stylesheet" href="rcn-forward-graph.css?v=31">
   <script src="rcn-forward-graph.js?v=33" defer></script>
-  <link rel="stylesheet" href="rcn-hierarchy-maps.css?v=6">
-  <script src="rcn-hierarchy-training.js?v=6" defer></script>
-  <script src="rcn-hierarchy-laterals.js?v=6" defer></script>
-  <script src="rcn-hierarchy-inference.js?v=1" defer></script>
-  <script src="rcn-hierarchy-maps-model.js?v=6" defer></script>
-  <script src="rcn-hierarchy-maps.js?v=6" defer></script>
+  <link rel="stylesheet" href="rcn-hierarchy-maps.css?v=7">
   <link rel="stylesheet" href="rcn-results.css?v=4">
   <script src="rcn-captcha-examples.js?v=2" defer></script>
   <script src="rcn-results.js?v=7" defer></script>
@@ -389,18 +384,9 @@
 
           </figure>
           <p>We can add a feature level between the edge maps and the landmark pools. In the alternate view below, short edges combine into <em>corners, arcs, and longer lines</em>. Each higher-level map records where one of these contour parts occurs in the image. Landmark pools now search these part maps, allowing an exemplar to be built from larger pieces of a contour.</p>
-          <figure id="rcn-forward-graph-prime" aria-labelledby="rfp-caption" data-lateral-nodes="false">
-            <div class="rfp-scroll" tabindex="0" role="region" aria-label="Hierarchical feature maps; scroll horizontally on a narrow screen"><div class="rfp-stage">
-              <svg id="rfp-canvas" viewBox="0 0 900 655" role="img" aria-label="Short edges combine into corners, arcs, and lines in two 3D feature-map stacks, followed by landmark pools and three exemplars"></svg>
-              <div class="rfp-control rfp-run-control"><button id="rfp-run" type="button">Run Forward Pass ↑</button><button id="rfp-reset" class="rfp-secondary" type="button" hidden>Reset</button></div>
-              <div class="rfp-control rfp-exemplar-control" role="group" aria-label="Browse learned exemplars"><span id="rfp-exemplar-label">Digit 5</span><button id="rfp-exemplar-next" type="button">Next exemplar ↑</button><span id="rfp-exemplar-count">1 / 3 exemplars</span></div>
-              <div class="rfp-control rfp-feature-control" role="group" aria-label="Browse higher-level feature maps"><span id="rfp-feature-name">Corner · 135°</span><button id="rfp-next-feature" type="button">Next feature map ↑</button></div>
-              <label class="rfp-links"><input id="rfp-links" type="checkbox" checked>Show connections</label>
-              <label class="rfp-links rfp-lateral-toggle"><input id="rfp-show-lateral" type="checkbox">Show lateral factor nodes</label>
-            </div></div>
-            <div class="rfp-status" aria-live="polite"><strong id="rfp-stage-title"></strong><span id="rfp-story"></span></div>
-            <figcaption id="rfp-caption"><strong>Fig. 6′: From local edges to contour parts.</strong> A handwritten 5 makes the two feature levels easier to distinguish. Level 1 detects short, oriented edges; Level 2 combines them into corners, arcs, and longer straight segments. Choose a feature family or cycle through its maps. The required edge orientations light up together in the lower 3D stack, while blue dots mark every detected occurrence in the upper map and input image. Click a dot to trace its contributing edges. Run the forward pass to see edges activate a larger part, lateral messages coordinate the landmark choices, and the selected exemplar settle into its joint fit. These are illustrative templates in eight orientations per family, evaluated on exported edge data with ±2-pixel and adjacent-orientation tolerance. The displayed lateral tree and its score are computed from those part responses.</figcaption>
-            <noscript><p>Short edge fragments combine into corner, arc, and long-line features. Each higher-level map records one part type at every matching image location; landmark pools search those maps.</p></noscript>
+          <figure id="rcn-forward-graph-prime" aria-labelledby="rfp-caption">
+            <img class="rfp-static-image" src="assets/rcn-hierarchy/hierarchy-static.svg?v=2" width="900" height="650" alt="A static 3D hierarchy: a handwritten 5 supplies Level 1 edge feature maps, which combine into Level 2 corner, arc, and line maps. These shared maps feed separate groups of landmark pools, connected by lateral constraints, beneath exemplars of 5, 3, and 7.">
+            <figcaption id="rfp-caption"><strong>Fig. 6′: A hierarchy of reusable contour parts.</strong> Short edges combine into corners, arcs, and longer lines. Landmark pools search nearby positions in these shared feature maps; lateral connections coordinate the parts within each exemplar. Selected maps and schematic pool connections are shown for clarity.</figcaption>
           </figure>
           <p>This is already enough to recognize our new zero. But a high forward score is only a promising explanation: the more ambiguous scene in section 2.4 below will let us see why backward inference and loopy belief propagation matter.</p>
           
