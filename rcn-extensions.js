@@ -105,7 +105,7 @@
 
   if($('rcn-ambiguity')){
     const inks=['#45827b','#0f67a2','#a97735'],xs=[160,340,520],strokeXs=[90,190,290,390,490,590];
-    let bias=0,selected=1,stage=2,timer=null,model=M.ambiguity(),previous=model;
+    let bias=-.4,selected=1,stage=2,timer=null,model=M.ambiguity(bias,selected),previous=model;
     const reading=mask=>mask===1?'B':'1 + 3';
     function stop(){clearInterval(timer);timer=null;}
     function character(result,observed=false){
