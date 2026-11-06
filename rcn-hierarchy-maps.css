@@ -1,6 +1,4 @@
-#rcn-forward-graph-prime { width:min(900px,calc(100vw - 3rem)); position:relative; left:50%; transform:translateX(-50%); margin:2.5rem 0; padding-top:1.3rem; border-top:1px solid var(--rule); color:var(--navy); }
-#rcn-forward-graph-prime .rfp-static-image { display:block; width:100%; height:auto; }
-#rcn-forward-graph-prime figcaption { font:.9375rem/1.55 var(--body); padding-top:.8rem; border-top:1px solid var(--rule); }
+#rcn-forward-graph-prime { width:100%; margin:1.7rem 0; padding-top:1rem; border-top:1px solid var(--rule); color:var(--navy); }
+#rcn-forward-graph-prime .rfp-static-image { display:block; width:100%; max-width:540px; height:auto; margin:0 auto .7rem; }
+#rcn-forward-graph-prime figcaption { font:.9375rem/1.55 var(--body); padding-top:.7rem; border-top:1px solid var(--rule); }
 #rcn-forward-graph-prime figcaption strong { color:var(--navy); }
-@media(min-width:1141px) { #rcn-forward-graph-prime { width:min(900px,calc(50vw + 297px)); left:0; transform:none; } }
-@media print { #rcn-forward-graph-prime { width:100%; left:0; transform:none; } }

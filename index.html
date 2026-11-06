@@ -61,7 +61,7 @@
   <script src="rcn-forward.js?v=9" defer></script>
   <link rel="stylesheet" href="rcn-forward-graph.css?v=31">
   <script src="rcn-forward-graph.js?v=33" defer></script>
-  <link rel="stylesheet" href="rcn-hierarchy-maps.css?v=7">
+  <link rel="stylesheet" href="rcn-hierarchy-maps.css?v=8">
   <link rel="stylesheet" href="rcn-results.css?v=4">
   <script src="rcn-captcha-examples.js?v=2" defer></script>
   <script src="rcn-results.js?v=7" defer></script>
@@ -413,10 +413,10 @@
           <h3 id="extending-rcn">Building a hierarchy of reusable parts</h3>
           <p>So far, our model has linked a whole exemplar directly to its edge landmarks. Full RCN repeats this organization across several levels: edges combine into corners, corners into larger parts, and parts into whole objects. Each feature predicts a configuration of simpler features. Evidence travels upward through this hierarchy; predictions travel back down.</p>
           <p>The same two ingredients recur at each level. <em>Pools</em> allow a part to occupy several nearby positions, while <em>lateral constraints</em> keep the selected positions compatible. For a three-level example, see <a href="https://www.cs.jhu.edu/~ayuille1/JHUcourses/ProbabilisticModelsOfVisualCognition2019/Lec23/nov19lecture/GeorgeCAPCHAS.pdf#page=11">George et al. (2017), Fig. 2C</a>.</p>
-          <p>Figure 8 shows Level 1 and Level N feature maps, with intermediate levels omitted. Landmark pools connect to nearby positions in the Level N maps, while lateral connections coordinate the pools within each exemplar.</p>
+          <p>Figure 8 sketches how this organization can extend across several feature levels, building from local edges toward whole-object exemplars.</p>
           <figure id="rcn-forward-graph-prime" aria-labelledby="rfp-caption">
-            <img class="rfp-static-image" src="assets/rcn-hierarchy/hierarchy-static.svg?v=5" width="900" height="650" alt="A static 3D hierarchy: Level 1 feature maps, upward arrows through an ellipsis labeled Intermediate levels, then Level N feature maps. Landmark pools connect to multiple points on the Level N maps beneath exemplars of 5, 3, and 7.">
-            <figcaption id="rfp-caption"><strong>Fig. 8: A hierarchy of feature maps.</strong> Dots represent feature activations. The ellipsis stands for intermediate levels. Each illustrated landmark pool connects to several nearby positions on a Level N map; lateral links coordinate pools within an exemplar. Maps and connections are schematic.</figcaption>
+            <img class="rfp-static-image" src="assets/rcn-hierarchy/hierarchy-static.svg?v=6" width="560" height="304" alt="Multi-layered RCN, from bottom to top: Level 1 feature maps (edges), Level 2 feature maps (contours), Level 3 feature maps (shapes), and landmark pools for each exemplar (whole objects).">
+            <figcaption id="rfp-caption"><strong>Fig. 8: Multi-layered RCN.</strong> The same organization extends from simpler features to larger parts and whole-object exemplars. Feature categories are illustrative; detailed connections are omitted.</figcaption>
           </figure>
           <p>Reusing parts makes a hierarchy economical: a familiar corner can participate in many larger shapes. In full RCN, parent-specific copies preserve the different lateral contexts in which a shared feature participates. These feature levels should not be confused with the six anatomical layers within a cortical region.</p>
           <p>Full RCN also couples contours to a <em>surface-appearance canvas</em>, representing properties such as color and texture within boundaries. Our contour walkthrough leaves that component aside; we return to published visual phenomena below.</p>
